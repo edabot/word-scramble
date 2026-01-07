@@ -60,7 +60,6 @@ header h1 {
     text-align: center;
     margin: 20px 0;
     padding: 20px;
-    background: #f0f0f0;
     border-radius: 10px;
 }
 
@@ -154,6 +153,36 @@ header h1 {
     cursor: not-allowed;
 }
 
+.fragment-cell.solution-word-0 {
+    background: #fee440;
+    color: #333;
+    border-color: #fee440;
+}
+
+.fragment-cell.solution-word-1 {
+    background: #4ECDC4;
+    color: white;
+    border-color: #3DBCB3;
+}
+
+.fragment-cell.solution-word-2 {
+    background: #f15bb5;
+    color: #333;
+    border-color: #f15bb5;
+}
+
+.fragment-cell.solution-word-3 {
+    background: #95E1D3;
+    color: #333;
+    border-color: #84D0C2;
+}
+
+.fragment-cell.solution-word-4 {
+    background: #00bbf9;
+    color: #333;
+    border-color: #00bbf9;
+}
+
 .fragment-cell .selection-number {
     position: absolute;
     top: 4px;
@@ -205,6 +234,31 @@ header h1 {
     animation: fadeIn 0.5s;
 }
 
+#foundWordsList li.found-word-0 {
+    background: #fee440;
+    color: #333;
+}
+
+#foundWordsList li.found-word-1 {
+    background: #4ECDC4;
+    color: white;
+}
+
+#foundWordsList li.found-word-2 {
+    background: #f15bb5;
+    color: white;
+}
+
+#foundWordsList li.found-word-3 {
+    background: #95E1D3;
+    color: #333;
+}
+
+#foundWordsList li.found-word-4 {
+    background: #00bbf9;
+    color: white;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -243,6 +297,16 @@ header h1 {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-10px); }
     75% { transform: translateX(10px); }
+}
+
+@keyframes gridShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+.puzzle-grid.shake {
+    animation: gridShake 0.84s;
 }
 
 .game-controls {

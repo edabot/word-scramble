@@ -127,9 +127,39 @@ function arrangeColumnDeterministically(column) {
     return result;
 }
 
-// Generate decoy fragments for a column
-function generateDecoyFragment(col, usedFragments) {
-    // Common letters for decoys - different pool for each column
+// Generate decoy fragments for a column based on the current word group
+function generateDecoyFragment(col, usedFragments, allWords) {
+    // Collect all possible fragments from the current word group
+    const allFragmentsFromWords = [];
+
+    allWords.forEach(word => {
+        const fragments = fragmentWord(word);
+        if (fragments[col]) {
+            allFragmentsFromWords.push(fragments[col]);
+        }
+    });
+
+    // Try to use fragments from other positions in the same words (creates plausible but wrong combinations)
+    const candidateFragments = [];
+    allWords.forEach(word => {
+        const fragments = fragmentWord(word);
+        fragments.forEach((frag, idx) => {
+            // Don't use fragments that are already in the correct column
+            if (idx !== col && !usedFragments.some(f => f.fragment === frag)) {
+                candidateFragments.push(frag);
+            }
+        });
+    });
+
+    // Randomly pick one that isn't already used in this column
+    const shuffledCandidates = shuffle(candidateFragments);
+    for (const frag of shuffledCandidates) {
+        if (!usedFragments.some(f => f.fragment === frag)) {
+            return frag;
+        }
+    }
+
+    // Fallback: use common letter combinations if no suitable fragment found
     const letterPools = [
         ['BR', 'FL', 'GR', 'PL', 'ST', 'TR', 'CL', 'DR', 'PR', 'SL'],  // Column 0
         ['OU', 'EA', 'AI', 'IE', 'OO', 'EE', 'OA', 'AU', 'ER', 'OR'],  // Column 1
@@ -139,28 +169,58 @@ function generateDecoyFragment(col, usedFragments) {
     ];
 
     const pool = letterPools[col] || letterPools[0];
-
-    // Find a fragment that's not already used
     for (const frag of pool) {
         if (!usedFragments.some(f => f.fragment === frag)) {
             return frag;
         }
     }
 
-    // Fallback: generate random consonant-vowel combo
+    // Last resort: generate random
     const consonants = 'BCDFGHJKLMNPRSTVWXYZ';
     const vowels = 'AEIOU';
     return consonants[Math.floor(Math.random() * consonants.length)] +
            vowels[Math.floor(Math.random() * vowels.length)];
 }
 
+// Check if arrangement has at most one consecutive pair per word
+function countConsecutivePairs(scrambled) {
+    const pairCounts = {}; // Track consecutive pairs for each word
+
+    for (let row = 0; row < 6; row++) {
+        for (let col = 0; col < 4; col++) {  // Check columns 0-3 (pairs with next column)
+            const currentMeta = scrambled.metadata.find(m => m.row === row && m.col === col);
+            const nextMeta = scrambled.metadata.find(m => m.row === row && m.col === col + 1);
+
+            // Skip if either is a decoy
+            if (!currentMeta || !nextMeta || currentMeta.isDecoy || nextMeta.isDecoy) {
+                continue;
+            }
+
+            // Check if they're consecutive fragments of the same word
+            if (currentMeta.wordIndex === nextMeta.wordIndex &&
+                currentMeta.fragmentIndex + 1 === nextMeta.fragmentIndex) {
+                const wordKey = currentMeta.wordIndex;
+                pairCounts[wordKey] = (pairCounts[wordKey] || 0) + 1;
+
+                // If any word has more than one consecutive pair, invalid
+                if (pairCounts[wordKey] > 1) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
 // Scramble grid columns
-function scrambleGrid(grid, metadata) {
+function scrambleGrid(grid, metadata, allWords) {
     const scrambled = [[], [], [], [], [], []];  // 6 rows now
     const newMetadata = [];
+    const columnData = [];
 
+    // First, prepare all columns with their fragments
     for (let col = 0; col < 5; col++) {
-        // Extract column with metadata
         const column = [];
         for (let row = 0; row < 5; row++) {
             const fragment = grid[row][col];
@@ -171,63 +231,125 @@ function scrambleGrid(grid, metadata) {
                 fragment: fragment,
                 wordIndex: meta.wordIndex,
                 fragmentIndex: meta.fragmentIndex,
-                currentRow: row,
-                currentCol: col,
+                originalRow: row,
+                originalCol: col,
                 isDecoy: false
             });
         }
 
         // Add decoy fragment for this column
-        const decoyFragment = generateDecoyFragment(col, column);
+        const decoyFragment = generateDecoyFragment(col, column, allWords);
         column.push({
             fragment: decoyFragment,
-            wordIndex: -1,  // -1 indicates decoy
+            wordIndex: -1,
             fragmentIndex: -1,
-            currentRow: 5,
-            currentCol: col,
+            originalRow: 5,
+            originalCol: col,
             isDecoy: true
         });
 
-        // Shuffle with constraint
-        let shuffled;
-        let attempts = 0;
-        const maxAttempts = 1000;
+        columnData.push(column);
+    }
 
-        while (attempts < maxAttempts) {
-            shuffled = shuffle([...column]);
+    // Now scramble all columns with global constraints
+    const maxAttempts = 10000;
+    let attempts = 0;
+    let validArrangement = false;
 
-            // Check validity (no adjacent fragments from same word, excluding decoys)
-            let valid = true;
-            for (let i = 0; i < shuffled.length - 1; i++) {
-                // Skip check if either fragment is a decoy
-                if (!shuffled[i].isDecoy && !shuffled[i + 1].isDecoy) {
-                    if (shuffled[i].wordIndex === shuffled[i + 1].wordIndex) {
-                        valid = false;
-                        break;
-                    }
+    while (attempts < maxAttempts && !validArrangement) {
+        attempts++;
+
+        // Shuffle each column
+        const shuffledColumns = columnData.map(col => shuffle([...col]));
+
+        // Build temporary metadata for validation
+        const tempMetadata = [];
+        for (let col = 0; col < 5; col++) {
+            for (let row = 0; row < 6; row++) {
+                tempMetadata.push({
+                    fragment: shuffledColumns[col][row].fragment,
+                    wordIndex: shuffledColumns[col][row].wordIndex,
+                    fragmentIndex: shuffledColumns[col][row].fragmentIndex,
+                    row: row,
+                    col: col,
+                    isDecoy: shuffledColumns[col][row].isDecoy
+                });
+            }
+        }
+
+        // Check vertical adjacency (no same word fragments vertically adjacent)
+        let verticalValid = true;
+        for (let col = 0; col < 5; col++) {
+            for (let row = 0; row < 5; row++) {
+                const current = shuffledColumns[col][row];
+                const next = shuffledColumns[col][row + 1];
+
+                if (!current.isDecoy && !next.isDecoy &&
+                    current.wordIndex === next.wordIndex) {
+                    verticalValid = false;
+                    break;
+                }
+            }
+            if (!verticalValid) break;
+        }
+
+        if (!verticalValid) continue;
+
+        // Check consecutive pair constraint
+        const tempScrambled = { metadata: tempMetadata };
+        if (countConsecutivePairs(tempScrambled)) {
+            validArrangement = true;
+
+            // Place in final scrambled grid
+            for (let col = 0; col < 5; col++) {
+                for (let row = 0; row < 6; row++) {
+                    scrambled[row][col] = shuffledColumns[col][row].fragment;
                 }
             }
 
-            if (valid) break;
-            attempts++;
+            // Set final metadata
+            newMetadata.push(...tempMetadata);
         }
+    }
 
-        // If couldn't find valid arrangement, use deterministic
-        if (attempts >= maxAttempts) {
-            shuffled = arrangeColumnDeterministically(column);
-        }
+    // Fallback if no valid arrangement found
+    if (!validArrangement) {
+        console.warn('Could not find arrangement with consecutive pair constraint, using simpler constraints');
 
-        // Place in scrambled grid (6 rows)
-        for (let row = 0; row < 6; row++) {
-            scrambled[row][col] = shuffled[row].fragment;
-            newMetadata.push({
-                fragment: shuffled[row].fragment,
-                wordIndex: shuffled[row].wordIndex,
-                fragmentIndex: shuffled[row].fragmentIndex,
-                row: row,
-                col: col,
-                isDecoy: shuffled[row].isDecoy || false
-            });
+        for (let col = 0; col < 5; col++) {
+            let shuffled;
+            let colAttempts = 0;
+
+            while (colAttempts < 1000) {
+                shuffled = shuffle([...columnData[col]]);
+
+                // Just check vertical adjacency
+                let valid = true;
+                for (let i = 0; i < shuffled.length - 1; i++) {
+                    if (!shuffled[i].isDecoy && !shuffled[i + 1].isDecoy) {
+                        if (shuffled[i].wordIndex === shuffled[i + 1].wordIndex) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (valid) break;
+                colAttempts++;
+            }
+
+            // Place in scrambled grid
+            for (let row = 0; row < 6; row++) {
+                scrambled[row][col] = shuffled[row].fragment;
+                newMetadata.push({
+                    fragment: shuffled[row].fragment,
+                    wordIndex: shuffled[row].wordIndex,
+                    fragmentIndex: shuffled[row].fragmentIndex,
+                    row: row,
+                    col: col,
+                    isDecoy: shuffled[row].isDecoy || false
+                });
+            }
         }
     }
 
@@ -243,7 +365,7 @@ function initializeGame() {
     const { grid, metadata } = createInitialGrid(group.words);
 
     // Scramble grid
-    const { scrambled, newMetadata } = scrambleGrid(grid, metadata);
+    const { scrambled, newMetadata } = scrambleGrid(grid, metadata, group.words);
 
     // Reset game state
     gameState = {
@@ -271,6 +393,12 @@ function initializeGame() {
 
     // Highlight first column
     highlightColumn(0);
+
+    // Console log words for testing
+    console.log('=== PUZZLE WORDS (for testing) ===');
+    console.log('Theme:', gameState.themeWord);
+    console.log('Words:', gameState.wordList);
+    console.log('==================================');
 }
 
 // Render the grid
@@ -394,6 +522,97 @@ function updateWordDisplay() {
     document.getElementById('currentWord').textContent = word.toUpperCase();
 }
 
+// Animate fragments to a target row
+function animateFragmentsToRow(fragments, targetRow, wordIndex) {
+    // Store the fragments that need to be moved
+    const fragmentsToMove = [...fragments];
+
+    // For each fragment, animate it to the target row
+    fragmentsToMove.forEach((frag) => {
+        const sourceCell = document.querySelector(`[data-row="${frag.row}"][data-col="${frag.col}"]`);
+        const targetCell = document.querySelector(`[data-row="${targetRow}"][data-col="${frag.col}"]`);
+
+        if (sourceCell && targetCell) {
+            // Get positions
+            const sourceRect = sourceCell.getBoundingClientRect();
+            const targetRect = targetCell.getBoundingClientRect();
+
+            // Calculate distance
+            const deltaY = targetRect.top - sourceRect.top;
+
+            // If already in target position, just apply styling
+            if (deltaY === 0) {
+                sourceCell.classList.add('used');
+                sourceCell.classList.add(`solution-word-${wordIndex}`);
+                sourceCell.classList.remove('selected');
+                return;
+            }
+
+            // Create a clone for animation
+            const clone = sourceCell.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.left = sourceRect.left + 'px';
+            clone.style.top = sourceRect.top + 'px';
+            clone.style.width = sourceRect.width + 'px';
+            clone.style.height = sourceRect.height + 'px';
+            clone.style.zIndex = '1000';
+            clone.classList.add('animating');
+            document.body.appendChild(clone);
+
+            // Hide original cells temporarily
+            sourceCell.style.opacity = '0';
+            const targetCellRow = parseInt(targetCell.dataset.row);
+            const targetCellCol = parseInt(targetCell.dataset.col);
+            const targetMeta = gameState.gridMetadata.find(m => m.row === targetCellRow && m.col === targetCellCol);
+            targetCell.style.opacity = '0';
+
+            // Animate the clone
+            setTimeout(() => {
+                clone.style.transition = 'all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1)';
+                clone.style.top = targetRect.top + 'px';
+            }, 10);
+
+            // After animation completes
+            setTimeout(() => {
+                // Swap the grid data
+                const temp = gameState.grid[frag.row][frag.col];
+                gameState.grid[frag.row][frag.col] = gameState.grid[targetRow][frag.col];
+                gameState.grid[targetRow][frag.col] = temp;
+
+                // Update metadata
+                const sourceMeta = gameState.gridMetadata.find(m => m.row === frag.row && m.col === frag.col);
+                if (sourceMeta) {
+                    sourceMeta.row = targetRow;
+                }
+                if (targetMeta) {
+                    targetMeta.row = frag.row;
+                }
+
+                // Update the actual cells
+                sourceCell.textContent = gameState.grid[frag.row][frag.col];
+                sourceCell.dataset.row = frag.row;
+                targetCell.textContent = gameState.grid[targetRow][frag.col];
+                targetCell.dataset.row = targetRow;
+
+                // Apply final styling to target cell
+                targetCell.classList.add('used');
+                targetCell.classList.add(`solution-word-${wordIndex}`);
+                targetCell.classList.remove('selected', 'available');
+
+                // Show cells again
+                sourceCell.style.opacity = '1';
+                targetCell.style.opacity = '1';
+
+                // Remove clone
+                clone.remove();
+
+                // Update the fragment's row reference
+                frag.row = targetRow;
+            }, 510);
+        }
+    });
+}
+
 // Clear selection
 function clearSelection() {
     // Remove visual markers
@@ -440,18 +659,19 @@ function submitWord() {
         // Success!
         gameState.foundWords.push(builtWord);
 
-        // Mark cells as used
-        gameState.selectedFragments.forEach(f => {
-            const cell = document.querySelector(`[data-row="${f.row}"][data-col="${f.col}"]`);
-            if (cell) {
-                cell.classList.add('used');
-                cell.classList.remove('selected');
-            }
-        });
+        // Get the word index for color coding
+        const wordIndex = gameState.selectedFragments[0].wordIndex;
 
-        // Add to found list
+        // Determine target row (based on how many words have been found)
+        const targetRow = gameState.foundWords.length - 1;
+
+        // Animate fragments to target row
+        animateFragmentsToRow(gameState.selectedFragments, targetRow, wordIndex);
+
+        // Add to found list with matching color
         const listItem = document.createElement('li');
         listItem.textContent = builtWord;
+        listItem.classList.add(`found-word-${wordIndex}`);
         document.getElementById('foundWordsList').appendChild(listItem);
 
         // Update count
@@ -469,13 +689,24 @@ function submitWord() {
         // Check win condition
         if (gameState.foundWords.length === 5) {
             gameState.currentState = GameState.WON;
-            setTimeout(() => showVictory(), 1000);
+            // Gray out decoy letters
+            markDecoysAsUsed();
         }
 
         // Clear selection
         clearSelection();
     } else {
+        // Wrong word - shake the grid
+        const gridElement = document.getElementById('puzzleGrid');
+        gridElement.classList.add('shake');
+
         showMessage('Not a valid word!', 'error');
+
+        // Remove shake class after animation and clear selection
+        setTimeout(() => {
+            gridElement.classList.remove('shake');
+            clearSelection();
+        }, 840);
     }
 }
 
@@ -533,14 +764,47 @@ function closeVictory() {
     initializeGame();
 }
 
+// Mark all decoy fragments as used (gray them out)
+function markDecoysAsUsed() {
+    const cells = document.querySelectorAll('.fragment-cell');
+    cells.forEach(cell => {
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+
+        // Find metadata for this cell
+        const meta = gameState.gridMetadata.find(m => m.row === row && m.col === col);
+
+        // If it's a decoy, mark it as used
+        if (meta && meta.isDecoy) {
+            cell.classList.add('used');
+            cell.classList.remove('available');
+        }
+    });
+}
+
 // Show solution
 function showSolution() {
     if (confirm('Are you sure you want to see the solution? This will end the current game.')) {
         gameState.currentState = GameState.LOST;
 
-        // Reveal all words
-        const words = gameState.wordList.join(', ');
-        alert(`Solution:\n\n${words}\n\nTheme: ${gameState.themeWord}`);
+        // Highlight each word's fragments in the grid with different colors
+        const cells = document.querySelectorAll('.fragment-cell');
+        cells.forEach(cell => {
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
+
+            // Find metadata for this cell
+            const meta = gameState.gridMetadata.find(m => m.row === row && m.col === col);
+
+            // If it's not a decoy, add the color class for that word
+            if (meta && !meta.isDecoy && meta.wordIndex >= 0) {
+                cell.classList.add(`solution-word-${meta.wordIndex}`);
+                cell.classList.remove('available');
+            }
+        });
+
+        // Gray out decoy letters
+        markDecoysAsUsed();
 
         // Reveal theme
         revealTheme(gameState.themeWord);
