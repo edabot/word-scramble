@@ -97,7 +97,7 @@ header h1 {
 .puzzle-grid {
     display: grid;
     grid-template-columns: repeat(5, 100px);
-    grid-template-rows: repeat(6, 100px);
+    grid-template-rows: repeat(5, 100px);
     gap: 8px;
     margin: 20px auto;
     width: fit-content;
@@ -403,7 +403,7 @@ header h1 {
 
     .puzzle-grid {
         grid-template-columns: repeat(5, 60px);
-        grid-template-rows: repeat(6, 60px);
+        grid-template-rows: repeat(5, 60px);
         gap: 4px;
     }
 
@@ -426,7 +426,7 @@ header h1 {
 @media (max-width: 480px) {
     .puzzle-grid {
         grid-template-columns: repeat(5, 50px);
-        grid-template-rows: repeat(6, 50px);
+        grid-template-rows: repeat(5, 50px);
         gap: 3px;
     }
 

@@ -2,322 +2,402 @@
 const wordGroups = [
     {
         theme: 'GARDEN',
-        words: ['GARDEN', 'FLOWERS', 'SEEDS', 'SOILS', 'WATER']
+        words: ['FLOWERS', 'SEEDS', 'SOILS', 'WATER'],
+        decoy: 'LAPTOP'
     },
     {
         theme: 'KITCHEN',
-        words: ['KITCHEN', 'STOVE', 'KNIFE', 'PLATE', 'SPOON']
+        words: ['STOVE', 'KNIFE', 'PLATE', 'SPOON'],
+        decoy: 'FOREST'
     },
     {
         theme: 'FOREST',
-        words: ['FOREST', 'TREES', 'BIRDS', 'TRAIL', 'MAPLE']
+        words: ['TREES', 'BIRDS', 'TRAIL', 'MAPLE'],
+        decoy: 'GUITAR'
     },
     {
         theme: 'WINTER',
-        words: ['WINTER', 'SNOWS', 'FROST', 'FROZEN', 'SKATE']
+        words: ['SNOWS', 'FROST', 'FROZEN', 'SKATE'],
+        decoy: 'SUMMER'
     },
     {
         theme: 'TRAVEL',
-        words: ['TRAVEL', 'HOTEL', 'FLIGHT', 'ROADS', 'TOURS']
+        words: ['HOTEL', 'FLIGHT', 'ROADS', 'TOURS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'MOVIE',
-        words: ['MOVIE', 'FILMS', 'ACTOR', 'SCENE', 'DRAMA']
+        words: ['FILMS', 'ACTOR', 'SCENE', 'DRAMA'],
+        decoy: 'PLANET'
     },
     {
         theme: 'ANIMAL',
-        words: ['ANIMAL', 'TIGER', 'BEARS', 'ZEBRA', 'LIONS']
+        words: ['TIGER', 'BEARS', 'ZEBRA', 'LIONS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'DESERT',
-        words: ['DESERT', 'SANDY', 'CACTUS', 'OASIS', 'DUNES']
+        words: ['SANDY', 'CACTUS', 'OASIS', 'DUNES'],
+        decoy: 'OCEAN'
     },
     {
         theme: 'CASTLE',
-        words: ['CASTLE', 'TOWER', 'MOATS', 'WALLS', 'GUARD']
+        words: ['TOWER', 'MOATS', 'WALLS', 'GUARD'],
+        decoy: 'DOCTOR'
     },
     {
         theme: 'CIRCUS',
-        words: ['CIRCUS', 'CLOWN', 'TENTS', 'MAGIC', 'LIONS']
+        words: ['CLOWN', 'TENTS', 'MAGIC', 'LIONS'],
+        decoy: 'STREAM'
     },
     {
         theme: 'PIRATE',
-        words: ['PIRATE', 'SHIPS', 'CHEST', 'SWORD', 'SKULL']
+        words: ['SHIPS', 'CHEST', 'SWORD', 'SKULL'],
+        decoy: 'MEMORY'
     },
     {
         theme: 'JUNGLE',
-        words: ['JUNGLE', 'VINES', 'TREES', 'TRIBE', 'RIVER']
+        words: ['VINES', 'TREES', 'TRIBE', 'RIVER'],
+        decoy: 'SCHOOL'
     },
     {
         theme: 'ARCTIC',
-        words: ['ARCTIC', 'POLAR', 'BEARS', 'SNOWY', 'FROST']
+        words: ['POLAR', 'BEARS', 'SNOWY', 'FROST'],
+        decoy: 'DESERT'
     },
     {
         theme: 'COFFEE',
-        words: ['COFFEE', 'BEANS', 'CREAM', 'LATTE', 'MOCHA']
+        words: ['BEANS', 'CREAM', 'LATTE', 'MOCHA'],
+        decoy: 'FOREST'
     },
     {
         theme: 'PIZZA',
-        words: ['PIZZA', 'CRUST', 'SAUCE', 'CHEESE', 'OVENS']
+        words: ['CRUST', 'SAUCE', 'CHEESE', 'OVENS'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'BAKERY',
-        words: ['BAKERY', 'BREAD', 'FLOUR', 'OVENS', 'ROLLS']
+        words: ['BREAD', 'FLOUR', 'OVENS', 'ROLLS'],
+        decoy: 'PLANET'
     },
     {
         theme: 'TRAINS',
-        words: ['TRAINS', 'TRACK', 'COACH', 'STEAM', 'RAILS']
+        words: ['TRACK', 'COACH', 'STEAM', 'RAILS'],
+        decoy: 'CLOUDS'
     },
     {
         theme: 'BRIDGE',
-        words: ['BRIDGE', 'STEEL', 'CABLE', 'RIVER', 'TOWER']
+        words: ['STEEL', 'CABLE', 'RIVER', 'TOWER'],
+        decoy: 'JUNGLE'
     },
     {
         theme: 'MARKET',
-        words: ['MARKET', 'FRUIT', 'GOODS', 'STAND', 'TRADE']
+        words: ['FRUIT', 'GOODS', 'STAND', 'TRADE'],
+        decoy: 'ROCKET'
     },
     {
         theme: 'DRAGON',
-        words: ['DRAGON', 'FIRES', 'WINGS', 'SCALE', 'FLAME']
+        words: ['FIRES', 'WINGS', 'SCALE', 'FLAME'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'KNIGHT',
-        words: ['KNIGHT', 'ARMOR', 'SWORD', 'HORSE', 'QUEST']
+        words: ['ARMOR', 'SWORD', 'HORSE', 'QUEST'],
+        decoy: 'CLOUDS'
     },
     {
         theme: 'BEACH',
-        words: ['BEACH', 'SANDY', 'WAVES', 'SHELL', 'SHORE']
+        words: ['SANDY', 'WAVES', 'SHELL', 'SHORE'],
+        decoy: 'ROCKET'
     },
     {
         theme: 'STORM',
-        words: ['STORM', 'THUNDER', 'RAINS', 'WINDY', 'CLOUD']
+        words: ['THUNDER', 'RAINS', 'WINDY', 'CLOUD'],
+        decoy: 'PALACE'
     },
     {
         theme: 'HARBOR',
-        words: ['HARBOR', 'BOATS', 'DOCKS', 'CRANE', 'SHIPS']
+        words: ['BOATS', 'DOCKS', 'CRANE', 'SHIPS'],
+        decoy: 'JUNGLE'
     },
     {
         theme: 'TEMPLE',
-        words: ['TEMPLE', 'STONE', 'ALTAR', 'MONKS', 'BELLS']
+        words: ['STONE', 'ALTAR', 'MONKS', 'BELLS'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'VALLEY',
-        words: ['VALLEY', 'HILLS', 'GRASS', 'CREEK', 'FIELD']
+        words: ['HILLS', 'GRASS', 'CREEK', 'FIELD'],
+        decoy: 'PIRATE'
     },
     {
         theme: 'ISLAND',
-        words: ['ISLAND', 'PALMS', 'COAST', 'WATER', 'BEACH']
+        words: ['PALMS', 'COAST', 'WATER', 'BEACH'],
+        decoy: 'TRAINS'
     },
     {
         theme: 'METEOR',
-        words: ['METEOR', 'SPACE', 'ROCKS', 'FALLS', 'CRASH']
+        words: ['SPACE', 'ROCKS', 'FALLS', 'CRASH'],
+        decoy: 'PLANTS'
     },
     {
         theme: 'GALAXY',
-        words: ['GALAXY', 'STARS', 'ORBIT', 'SPACE', 'NEBULA']
+        words: ['STARS', 'ORBIT', 'SPACE', 'NEBULA'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'ROBOT',
-        words: ['ROBOT', 'METAL', 'WIRES', 'CHIPS', 'SERVO']
+        words: ['METAL', 'WIRES', 'CHIPS', 'SERVO'],
+        decoy: 'FOREST'
     },
     {
         theme: 'LASER',
-        words: ['LASER', 'BEAMS', 'LIGHT', 'POWER', 'FOCUS']
+        words: ['BEAMS', 'LIGHT', 'POWER', 'FOCUS'],
+        decoy: 'PLANTS'
     },
     {
         theme: 'MAGIC',
-        words: ['MAGIC', 'SPELL', 'WANDS', 'CHARM', 'TRICK']
+        words: ['SPELL', 'WANDS', 'CHARM', 'TRICK'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'FAIRY',
-        words: ['FAIRY', 'WINGS', 'DUSTS', 'GLOWS', 'SPELL']
+        words: ['WINGS', 'DUSTS', 'GLOWS', 'SPELL'],
+        decoy: 'TRAINS'
     },
     {
         theme: 'GHOST',
-        words: ['GHOST', 'HAUNT', 'SPIRIT', 'CHAIN', 'MOANS']
+        words: ['HAUNT', 'SPIRIT', 'CHAIN', 'MOANS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'ZOMBIE',
-        words: ['ZOMBIE', 'BRAIN', 'WALKS', 'GROAN', 'HORDE']
+        words: ['BRAIN', 'WALKS', 'GROAN', 'HORDE'],
+        decoy: 'PALACE'
     },
     {
         theme: 'MUMMY',
-        words: ['MUMMY', 'WRAPS', 'TOMBS', 'EGYPT', 'CURSE']
+        words: ['WRAPS', 'TOMBS', 'EGYPT', 'CURSE'],
+        decoy: 'ROCKETS'
     },
     {
         theme: 'CAVES',
-        words: ['CAVES', 'DARKS', 'STONE', 'DEPTH', 'ECHOS']
+        words: ['DARKS', 'STONE', 'DEPTH', 'ECHOS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'MINES',
-        words: ['MINES', 'GOLDS', 'SHAFT', 'ROCKS', 'DRILL']
+        words: ['GOLDS', 'SHAFT', 'ROCKS', 'DRILL'],
+        decoy: 'CLOUDS'
     },
     {
         theme: 'RIVER',
-        words: ['RIVER', 'FLOWS', 'WATER', 'ROCKS', 'FISHY']
+        words: ['FLOWS', 'WATER', 'ROCKS', 'FISHY'],
+        decoy: 'PALACE'
     },
     {
         theme: 'MARSH',
-        words: ['MARSH', 'SWAMP', 'REEDS', 'FROGS', 'WATER']
+        words: ['SWAMP', 'REEDS', 'FROGS', 'WATER'],
+        decoy: 'ROCKET'
     },
     {
         theme: 'FIELD',
-        words: ['FIELD', 'GRASS', 'WHEAT', 'FARMS', 'CROPS']
+        words: ['GRASS', 'WHEAT', 'FARMS', 'CROPS'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'RANCH',
-        words: ['RANCH', 'HORSE', 'FARMS', 'FENCE', 'BARNS']
+        words: ['HORSE', 'FARMS', 'FENCE', 'BARNS'],
+        decoy: 'CLOUDS'
     },
     {
         theme: 'FENCE',
-        words: ['FENCE', 'WOODS', 'POSTS', 'WIRES', 'RAILS']
+        words: ['WOODS', 'POSTS', 'WIRES', 'RAILS'],
+        decoy: 'PLANET'
     },
     {
         theme: 'TOWER',
-        words: ['TOWER', 'TALLS', 'STONE', 'CLIMB', 'BELLS']
+        words: ['TALLS', 'STONE', 'CLIMB', 'BELLS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'CLOCK',
-        words: ['CLOCK', 'TIMES', 'HANDS', 'TICKS', 'ALARM']
+        words: ['TIMES', 'HANDS', 'TICKS', 'ALARM'],
+        decoy: 'FOREST'
     },
     {
         theme: 'WATCH',
-        words: ['WATCH', 'TIMES', 'STRAP', 'DIALS', 'HANDS']
+        words: ['TIMES', 'STRAP', 'DIALS', 'HANDS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'PHONE',
-        words: ['PHONE', 'CALLS', 'RINGS', 'DIALS', 'VOICE']
+        words: ['CALLS', 'RINGS', 'DIALS', 'VOICE'],
+        decoy: 'FOREST'
     },
     {
         theme: 'CAMERA',
-        words: ['CAMERA', 'LENSES', 'FLASH', 'PHOTO', 'FOCUS']
+        words: ['LENSES', 'FLASH', 'PHOTO', 'FOCUS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'PHOTO',
-        words: ['PHOTO', 'IMAGE', 'FRAME', 'SHOTS', 'ALBUM']
+        words: ['IMAGE', 'FRAME', 'SHOTS', 'ALBUM'],
+        decoy: 'JUNGLE'
     },
     {
         theme: 'PALACE',
-        words: ['PALACE', 'KINGS', 'THRONE', 'GRAND', 'HALLS']
+        words: ['KINGS', 'THRONE', 'GRAND', 'HALLS'],
+        decoy: 'FOREST'
     },
     {
         theme: 'THRONE',
-        words: ['THRONE', 'KINGS', 'ROYAL', 'SEATS', 'CROWN']
+        words: ['KINGS', 'ROYAL', 'SEATS', 'CROWN'],
+        decoy: 'FOREST'
     },
     {
         theme: 'CROWN',
-        words: ['CROWN', 'KINGS', 'GOLDS', 'JEWEL', 'ROYAL']
+        words: ['KINGS', 'GOLDS', 'JEWEL', 'ROYAL'],
+        decoy: 'FOREST'
     },
     {
         theme: 'SHIELD',
-        words: ['SHIELD', 'ARMOR', 'METAL', 'GUARD', 'CREST']
+        words: ['ARMOR', 'METAL', 'GUARD', 'CREST'],
+        decoy: 'FOREST'
     },
     {
         theme: 'HAMMER',
-        words: ['HAMMER', 'NAILS', 'TOOLS', 'STRIKE', 'METAL']
+        words: ['NAILS', 'TOOLS', 'STRIKE', 'METAL'],
+        decoy: 'FOREST'
     },
     {
         theme: 'ANVIL',
-        words: ['ANVIL', 'FORGE', 'METAL', 'SMITH', 'IRONS']
+        words: ['FORGE', 'METAL', 'SMITH', 'IRONS'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'FORGE',
-        words: ['FORGE', 'FIRES', 'METAL', 'SMITH', 'ANVIL']
+        words: ['FIRES', 'METAL', 'SMITH', 'ANVIL'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'BLADE',
-        words: ['BLADE', 'SHARP', 'EDGES', 'STEEL', 'SWORD']
+        words: ['SHARP', 'EDGES', 'STEEL', 'SWORD'],
+        decoy: 'GARDEN'
     },
     {
         theme: 'HUNTER',
-        words: ['HUNTER', 'TRACK', 'PREYS', 'WOODS', 'RIFLE']
+        words: ['TRACK', 'PREYS', 'WOODS', 'RIFLE'],
+        decoy: 'PALACE'
     },
     {
         theme: 'TRACKS',
-        words: ['TRACKS', 'TRAIL', 'FOOTS', 'HUNTS', 'PRINT']
+        words: ['TRAIL', 'FOOTS', 'HUNTS', 'PRINT'],
+        decoy: 'PALACE'
     },
     {
         theme: 'EAGLES',
-        words: ['EAGLES', 'WINGS', 'NESTS', 'SOARS', 'TALON']
+        words: ['WINGS', 'NESTS', 'SOARS', 'TALON'],
+        decoy: 'PALACE'
     },
     {
         theme: 'FALCON',
-        words: ['FALCON', 'BIRDS', 'SWIFT', 'DIVES', 'HUNTS']
+        words: ['BIRDS', 'SWIFT', 'DIVES', 'HUNTS'],
+        decoy: 'PALACE'
     },
     {
         theme: 'HAWKS',
-        words: ['HAWKS', 'BIRDS', 'PREYS', 'SOARS', 'TALON']
+        words: ['BIRDS', 'PREYS', 'SOARS', 'TALON'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'RAVENS',
-        words: ['RAVENS', 'BLACK', 'BIRDS', 'WINGS', 'CALLS']
+        words: ['BLACK', 'BIRDS', 'WINGS', 'CALLS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'PARROT',
-        words: ['PARROT', 'BIRDS', 'COLOR', 'TALKS', 'BEAKS']
+        words: ['BIRDS', 'COLOR', 'TALKS', 'BEAKS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'MONKEY',
-        words: ['MONKEY', 'TREES', 'TAILS', 'CLIMB', 'SWING']
+        words: ['TREES', 'TAILS', 'CLIMB', 'SWING'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'PANDA',
-        words: ['PANDA', 'BAMBOO', 'BLACK', 'WHITE', 'BEARS']
+        words: ['BAMBOO', 'BLACK', 'WHITE', 'BEARS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'KOALA',
-        words: ['KOALA', 'TREES', 'LEAFS', 'SLEEP', 'BEARS']
+        words: ['TREES', 'LEAFS', 'SLEEP', 'BEARS'],
+        decoy: 'ROCKET'
     },
     {
         theme: 'WHALE',
-        words: ['WHALE', 'OCEAN', 'GIANT', 'SPOUT', 'DIVES']
+        words: ['OCEAN', 'GIANT', 'SPOUT', 'DIVES'],
+        decoy: 'FOREST'
     },
     {
         theme: 'DOLPHIN',
-        words: ['DOLPHIN', 'OCEAN', 'JUMPS', 'SWIMS', 'SMART']
+        words: ['OCEAN', 'JUMPS', 'SWIMS', 'SMART'],
+        decoy: 'FOREST'
     },
     {
         theme: 'SEALS',
-        words: ['SEALS', 'WATER', 'SWIMS', 'FISHY', 'COAST']
+        words: ['WATER', 'SWIMS', 'FISHY', 'COAST'],
+        decoy: 'JUNGLE'
     },
     {
         theme: 'SUMMIT',
-        words: ['SUMMIT', 'PEAKS', 'CLIMB', 'MOUNT', 'ROCKY']
+        words: ['PEAKS', 'CLIMB', 'MOUNT', 'ROCKY'],
+        decoy: 'PALACE'
     },
     {
         theme: 'CANYON',
-        words: ['CANYON', 'GORGE', 'CLIFF', 'DEEPS', 'ROCKS']
+        words: ['GORGE', 'CLIFF', 'DEEPS', 'ROCKS'],
+        decoy: 'PALACE'
     },
     {
         theme: 'RAPIDS',
-        words: ['RAPIDS', 'RIVER', 'RUSHS', 'WATER', 'ROCKS']
+        words: ['RIVER', 'RUSHS', 'WATER', 'ROCKS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'STREAM',
-        words: ['STREAM', 'WATER', 'FLOWS', 'CREEK', 'ROCKS']
+        words: ['WATER', 'FLOWS', 'CREEK', 'ROCKS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'BROOK',
-        words: ['BROOK', 'STREAM', 'WATER', 'SMALL', 'FLOWS']
+        words: ['STREAM', 'WATER', 'SMALL', 'FLOWS'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'MEADOW',
-        words: ['MEADOW', 'GRASS', 'FIELD', 'GREEN', 'FLOWER']
+        words: ['GRASS', 'FIELD', 'GREEN', 'FLOWER'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'PLAINS',
-        words: ['PLAINS', 'FLATS', 'GRASS', 'WIDES', 'OPENS']
+        words: ['FLATS', 'GRASS', 'WIDES', 'OPENS'],
+        decoy: 'CASTLE'
     },
     {
         theme: 'PRAIRIE',
-        words: ['PRAIRIE', 'GRASS', 'WIDES', 'FLATS', 'OPENS']
+        words: ['GRASS', 'WIDES', 'FLATS', 'OPENS'],
+        decoy: 'ROBOTS'
     },
     {
         theme: 'TUNDRA',
-        words: ['TUNDRA', 'COLDS', 'MOSSY', 'FLATS', 'BARES']
+        words: ['COLDS', 'MOSSY', 'FLATS', 'BARES'],
+        decoy: 'JUNGLE'
     },
     {
         theme: 'VOLCANO',
-        words: ['VOLCANO', 'LAVAS', 'ERUPT', 'CRATER', 'ASHEN']
+        words: ['LAVAS', 'ERUPT', 'CRATER', 'ASHEN'],
+        decoy: 'PALACE'
     }
 ];
