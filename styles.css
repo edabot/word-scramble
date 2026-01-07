@@ -127,6 +127,23 @@ header h1 {
     transform: scale(1.05);
 }
 
+.fragment-cell.keyboard-highlighted {
+    border-color: #FF9800;
+    border-width: 4px;
+    box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.3), 0 4px 12px rgba(255, 152, 0, 0.4);
+    transform: scale(1.03);
+}
+
+.fragment-cell.keyboard-highlighted.available {
+    border-color: #FF9800;
+    background: #fff8e1;
+}
+
+.fragment-cell.keyboard-highlighted.selected {
+    /* Selected cells with keyboard highlight get orange border */
+    border-color: #FF9800;
+}
+
 .fragment-cell.used {
     background: #e0e0e0;
     color: #999;

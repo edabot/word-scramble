@@ -17,7 +17,8 @@ let gameState = {
     wordList: [],
     themeWord: '',
     themeRevealed: false,
-    gridMetadata: []
+    gridMetadata: [],
+    keyboardHighlightedCell: { row: 0, col: 0 } // For keyboard navigation
 };
 
 // Utility function to shuffle array
@@ -143,17 +144,14 @@ function generateOptimalFragmentations(words, decoyWord) {
 }
 
 // Create initial grid (before scrambling)
-function createInitialGrid(words, decoyWord) {
+// Words are now pre-fragmented arrays from words.js
+function createInitialGrid(words, decoyFragments) {
     const grid = [];
     const metadata = [];
 
-    // Generate optimal fragmentations for all words including decoy
-    const fragmentSets = generateOptimalFragmentations(words, decoyWord);
-
-    // Use the first 4 fragmentation sets for the actual words
-    words.forEach((word, wordIdx) => {
-        const fragments = fragmentSets[wordIdx];
-        grid.push(fragments);
+    // Words are already fragmented as arrays of 5 fragments
+    words.forEach((fragments, wordIdx) => {
+        grid.push([...fragments]); // Copy the fragments
 
         // Store metadata for each fragment
         fragments.forEach((fragment, fragIdx) => {
@@ -167,8 +165,8 @@ function createInitialGrid(words, decoyWord) {
         });
     });
 
-    // Return both the grid and the decoy fragments (5th set)
-    return { grid, metadata, decoyFragments: fragmentSets[4] };
+    // Return both the grid and the decoy fragments (already fragmented)
+    return { grid, metadata, decoyFragments };
 }
 
 // Check if column arrangement is valid (no adjacent fragments from same word)
@@ -394,11 +392,15 @@ function initializeGame() {
     // Select random word group
     const group = wordGroups[Math.floor(Math.random() * wordGroups.length)];
 
-    // Create initial grid with optimal fragmentations
+    // Words and decoy are already pre-fragmented arrays
+    // Create initial grid (no fragmentation needed)
     const { grid, metadata, decoyFragments } = createInitialGrid(group.words, group.decoy);
 
     // Scramble grid
     const { scrambled, newMetadata } = scrambleGrid(grid, metadata, decoyFragments);
+
+    // Reconstruct full words for validation
+    const fullWords = group.words.map(fragments => fragments.join(''));
 
     // Reset game state
     gameState = {
@@ -408,7 +410,7 @@ function initializeGame() {
         currentColumn: 0,
         grid: scrambled,
         solution: grid,
-        wordList: group.words,
+        wordList: fullWords, // Store full words for validation
         themeWord: group.theme,
         themeRevealed: false,
         gridMetadata: newMetadata
@@ -427,11 +429,15 @@ function initializeGame() {
     // Highlight first column
     highlightColumn(0);
 
+    // Reset keyboard highlight to first available cell in current column
+    gameState.keyboardHighlightedCell = { row: 0, col: 0 };
+    updateKeyboardHighlight();
+
     // Console log words for testing
     console.log('=== PUZZLE WORDS (for testing) ===');
     console.log('Theme:', gameState.themeWord);
     console.log('Words:', gameState.wordList);
-    console.log('Decoy:', group.decoy);
+    console.log('Decoy:', group.decoy.join(''));
     console.log('==================================');
 }
 
@@ -490,6 +496,11 @@ function isCellUsed(row, col) {
 
 // Handle fragment click
 function handleFragmentClick(row, col) {
+    // Don't allow any interaction if game is over
+    if (gameState.currentState === GameState.WON || gameState.currentState === GameState.LOST) {
+        return;
+    }
+
     // Check if correct column
     if (col !== gameState.currentColumn) {
         showMessage(`Please select from column ${gameState.currentColumn + 1}`, 'error');
@@ -538,6 +549,10 @@ function handleFragmentClick(row, col) {
     // Check if word complete
     if (gameState.currentColumn < 5) {
         highlightColumn(gameState.currentColumn);
+        // Move keyboard highlight to the next column (same row)
+        gameState.keyboardHighlightedCell.col = gameState.currentColumn;
+        // Keep the same row, no change to gameState.keyboardHighlightedCell.row
+        updateKeyboardHighlight();
     } else {
         // Auto-submit when 5th fragment is selected
         gameState.currentState = GameState.WORD_COMPLETE;
@@ -677,6 +692,17 @@ function clearSelection() {
     // Highlight first column
     highlightColumn(0);
     clearMessage();
+
+    // Reset keyboard highlight to first unused row in first column
+    // Don't update highlight if game is won
+    if (gameState.currentState !== GameState.WON) {
+        // The first unused row is equal to the number of found words
+        // (since found words are placed in rows 0, 1, 2, 3 in order)
+        const firstUnusedRow = gameState.foundWords.length;
+
+        gameState.keyboardHighlightedCell = { row: firstUnusedRow, col: 0 };
+        updateKeyboardHighlight();
+    }
 }
 
 // Submit word
@@ -725,13 +751,17 @@ function submitWord() {
             revealTheme(gameState.themeWord);
             // Hide clear button
             document.querySelector('.clear-button-container').classList.add('hidden');
+            // Remove keyboard highlight
+            document.querySelectorAll('.fragment-cell').forEach(cell => {
+                cell.classList.remove('keyboard-highlighted');
+            });
             // Gray out decoy letters after animation completes
             setTimeout(() => {
                 markDecoysAsUsed();
             }, 600);
         }
 
-        // Clear selection
+        // Clear selection (will reset keyboard highlight to first unused row)
         clearSelection();
     } else {
         // Wrong word - shake the grid
@@ -926,6 +956,11 @@ function confirmShowSolution() {
     // Hide clear button
     document.querySelector('.clear-button-container').classList.add('hidden');
 
+    // Remove keyboard highlight
+    document.querySelectorAll('.fragment-cell').forEach(cell => {
+        cell.classList.remove('keyboard-highlighted');
+    });
+
     // Highlight each word's fragments in the grid with different colors
     const cells = document.querySelectorAll('.fragment-cell');
     cells.forEach(cell => {
@@ -962,6 +997,138 @@ document.getElementById('newGame').addEventListener('click', initializeGame);
 document.getElementById('giveUp').addEventListener('click', showSolution);
 document.getElementById('confirmYes').addEventListener('click', confirmShowSolution);
 document.getElementById('confirmNo').addEventListener('click', hideConfirmation);
+
+// Keyboard navigation functions
+function updateKeyboardHighlight() {
+    // Don't update highlight if game is over
+    if (gameState.currentState === GameState.WON || gameState.currentState === GameState.LOST) {
+        // Remove any existing highlights
+        document.querySelectorAll('.fragment-cell').forEach(cell => {
+            cell.classList.remove('keyboard-highlighted');
+        });
+        return;
+    }
+
+    // Remove previous highlight
+    document.querySelectorAll('.fragment-cell').forEach(cell => {
+        cell.classList.remove('keyboard-highlighted');
+    });
+
+    // Add new highlight
+    const cells = document.querySelectorAll('.fragment-cell');
+    cells.forEach(cell => {
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        if (row === gameState.keyboardHighlightedCell.row && col === gameState.keyboardHighlightedCell.col) {
+            cell.classList.add('keyboard-highlighted');
+            // Scroll into view if needed
+            cell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    });
+}
+
+function handleKeyboardNavigation(event) {
+    // Don't handle keyboard if game is over
+    if (gameState.currentState === GameState.WON || gameState.currentState === GameState.LOST) {
+        return;
+    }
+
+    const { row } = gameState.keyboardHighlightedCell;
+
+    switch(event.key) {
+        case 'ArrowUp':
+            event.preventDefault();
+            // Move up within current column, wrap to bottom
+            gameState.keyboardHighlightedCell.row = (row - 1 + 5) % 5;
+            updateKeyboardHighlight();
+            break;
+
+        case 'ArrowDown':
+            event.preventDefault();
+            // Move down within current column, wrap to top
+            gameState.keyboardHighlightedCell.row = (row + 1) % 5;
+            updateKeyboardHighlight();
+            break;
+
+        case ' ': // Space
+        case 'Enter':
+            event.preventDefault();
+            // Select the highlighted cell
+            handleFragmentClick(gameState.keyboardHighlightedCell.row, gameState.keyboardHighlightedCell.col);
+            // After selection, move highlight to next column (handled in handleFragmentClick)
+            break;
+
+        case 'Delete':
+        case 'Backspace':
+            event.preventDefault();
+            // Undo last move (this will also move highlight back to previous column)
+            undoLastMove();
+            break;
+
+        case 'Escape':
+            event.preventDefault();
+            // Clear all selections
+            clearSelection();
+            break;
+    }
+}
+
+function undoLastMove() {
+    // Can only undo if we have selected something
+    if (gameState.selectedFragments.length === 0) {
+        return;
+    }
+
+    // Can't undo if game is checking or over
+    if (gameState.currentState !== GameState.SELECTING && gameState.currentState !== GameState.WORD_COMPLETE) {
+        return;
+    }
+
+    // Remove the last selected fragment
+    const lastFragment = gameState.selectedFragments.pop();
+
+    // Update current column
+    gameState.currentColumn = gameState.selectedFragments.length;
+
+    // Update game state
+    if (gameState.currentColumn < 5) {
+        gameState.currentState = GameState.SELECTING;
+    }
+
+    // Update visual - remove selection marker from the cell
+    const cells = document.querySelectorAll('.fragment-cell');
+    cells.forEach(cell => {
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        if (row === lastFragment.row && col === lastFragment.col) {
+            cell.classList.remove('selected');
+            const selectionNumber = cell.querySelector('.selection-number');
+            if (selectionNumber) {
+                selectionNumber.remove();
+            }
+        }
+    });
+
+    // Re-highlight the available column
+    highlightColumn(gameState.currentColumn);
+
+    // Move keyboard highlight back to the previous column
+    gameState.keyboardHighlightedCell.col = gameState.currentColumn;
+    gameState.keyboardHighlightedCell.row = lastFragment.row;
+    updateKeyboardHighlight();
+
+    // Disable submit button if we're no longer at 5 selections
+    if (gameState.currentColumn < 5) {
+        // No submit button in current implementation (auto-submits)
+        // but update state anyway
+    }
+
+    // Show message
+    showMessage('Move undone', 'success');
+}
+
+// Add keyboard event listener
+document.addEventListener('keydown', handleKeyboardNavigation);
 
 // Make functions available globally
 window.closeVictory = closeVictory;

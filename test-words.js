@@ -49,17 +49,23 @@ wordGroups.forEach((group, index) => {
     }
 
     // Check decoy
-    if (!group.decoy || group.decoy.length < 5 || group.decoy.length > 12) {
-        groupErrors.push(`Decoy "${group.decoy}" is not between 5-12 characters (length: ${group.decoy?.length || 0})`);
+    const decoyStr = Array.isArray(group.decoy) ? group.decoy.join('') : group.decoy;
+    if (!decoyStr || decoyStr.length < 5 || decoyStr.length > 12) {
+        groupErrors.push(`Decoy "${decoyStr}" is not between 5-12 characters (length: ${decoyStr?.length || 0})`);
+    }
+
+    // Check decoy has 5 fragments if array
+    if (Array.isArray(group.decoy) && group.decoy.length !== 5) {
+        groupErrors.push(`Decoy should have 5 fragments (found: ${group.decoy.length})`);
     }
 
     // Track decoy usage
-    if (group.decoy) {
-        if (decoyUsage[group.decoy]) {
-            decoyUsage[group.decoy]++;
-            groupWarnings.push(`Decoy "${group.decoy}" is reused (used ${decoyUsage[group.decoy]} times)`);
+    if (decoyStr) {
+        if (decoyUsage[decoyStr]) {
+            decoyUsage[decoyStr]++;
+            groupWarnings.push(`Decoy "${decoyStr}" is reused (used ${decoyUsage[decoyStr]} times)`);
         } else {
-            decoyUsage[group.decoy] = 1;
+            decoyUsage[decoyStr] = 1;
         }
     }
 
@@ -71,17 +77,31 @@ wordGroups.forEach((group, index) => {
             groupErrors.push(`Word list should have exactly 4 words (found: ${group.words.length})`);
         }
 
-        // Check each word
+        // Check each word (now arrays of fragments)
         group.words.forEach((word, wordIndex) => {
-            if (!word || word.length < 5 || word.length > 12) {
-                groupErrors.push(`Word #${wordIndex + 1} "${word}" is not between 5-12 characters (length: ${word?.length || 0})`);
+            if (Array.isArray(word)) {
+                // Pre-fragmented format - check it's 5 fragments
+                if (word.length !== 5) {
+                    groupErrors.push(`Word #${wordIndex + 1} should have 5 fragments (found: ${word.length})`);
+                }
+                // Reconstruct word for length checking
+                const fullWord = word.join('');
+                if (fullWord.length < 5 || fullWord.length > 12) {
+                    groupErrors.push(`Word #${wordIndex + 1} "${fullWord}" is not between 5-12 characters (length: ${fullWord.length})`);
+                }
+            } else {
+                // Old string format
+                if (!word || word.length < 5 || word.length > 12) {
+                    groupErrors.push(`Word #${wordIndex + 1} "${word}" is not between 5-12 characters (length: ${word?.length || 0})`);
+                }
             }
         });
 
-        // Check plural count
-        const pluralCount = countPlurals(group.words);
+        // Check plural count (reconstruct words if fragmented)
+        const fullWords = group.words.map(w => Array.isArray(w) ? w.join('') : w);
+        const pluralCount = countPlurals(fullWords);
         if (pluralCount > 1) {
-            const pluralWords = group.words.filter(isPlural);
+            const pluralWords = fullWords.filter(isPlural);
             groupErrors.push(`Has ${pluralCount} plural words (max 1 allowed): ${pluralWords.join(', ')}`);
         }
     }
@@ -124,7 +144,8 @@ console.log('\n=== CHARACTER LENGTH DISTRIBUTION ===');
 const lengthCounts = {};
 wordGroups.forEach(group => {
     group.words.forEach(word => {
-        const len = word.length;
+        const fullWord = Array.isArray(word) ? word.join('') : word;
+        const len = fullWord.length;
         lengthCounts[len] = (lengthCounts[len] || 0) + 1;
     });
 });
@@ -140,7 +161,8 @@ let groupsWithTwoPlurals = 0;
 let groupsWithMorePlurals = 0;
 
 wordGroups.forEach(group => {
-    const count = countPlurals(group.words);
+    const fullWords = group.words.map(w => Array.isArray(w) ? w.join('') : w);
+    const count = countPlurals(fullWords);
     if (count === 0) groupsWithZeroPlurals++;
     else if (count === 1) groupsWithOnePlural++;
     else if (count === 2) groupsWithTwoPlurals++;
@@ -151,14 +173,67 @@ console.log(`  0 plurals: ${groupsWithZeroPlurals} groups`);
 console.log(`  1 plural:  ${groupsWithOnePlural} groups`);
 console.log(`  2+ plurals: ${groupsWithTwoPlurals + groupsWithMorePlurals} groups (ERROR)`);
 
+// Test column uniqueness for pre-fragmented words
+console.log('\n=== COLUMN UNIQUENESS TEST ===');
+let totalColumnDuplicates = 0;
+let groupsWithDuplicates = 0;
+
+wordGroups.forEach((group, index) => {
+    // Check if words are arrays (pre-fragmented)
+    if (!Array.isArray(group.words[0])) {
+        console.log(`⚠️  Group #${index + 1} (${group.theme}): Words are not pre-fragmented (skipping)`);
+        return;
+    }
+
+    // Count duplicates in each column
+    let groupDuplicates = 0;
+    for (let col = 0; col < 5; col++) {
+        const fragments = [];
+
+        // Collect fragments from all 4 words + decoy for this column
+        for (let i = 0; i < 4; i++) {
+            fragments.push(group.words[i][col]);
+        }
+        fragments.push(group.decoy[col]);
+
+        // Check for duplicates
+        const uniqueFragments = new Set(fragments.map(f => f.toUpperCase()));
+        const duplicateCount = fragments.length - uniqueFragments.size;
+
+        if (duplicateCount > 0) {
+            groupDuplicates += duplicateCount;
+            const duplicateFragments = fragments.filter((item, idx) =>
+                fragments.map(f => f.toUpperCase()).indexOf(item.toUpperCase()) !== idx
+            );
+            console.log(`  Column ${col + 1} has ${duplicateCount} duplicate(s): ${duplicateFragments.join(', ')}`);
+        }
+    }
+
+    if (groupDuplicates > 0) {
+        console.log(`\n⚠️  Group #${index + 1}: ${group.theme} - ${groupDuplicates} total duplicate fragments`);
+        groupsWithDuplicates++;
+        totalColumnDuplicates += groupDuplicates;
+    }
+});
+
+console.log(`\nGroups with duplicate fragments: ${groupsWithDuplicates}/${wordGroups.length}`);
+console.log(`Total duplicate fragments across all groups: ${totalColumnDuplicates}`);
+console.log(`Average duplicates per group: ${(totalColumnDuplicates / wordGroups.length).toFixed(2)}`);
+
+if (totalColumnDuplicates === 0) {
+    console.log('✅ All columns have unique fragments!');
+} else {
+    console.log(`⚠️  ${totalColumnDuplicates} duplicate fragments found (acceptable for gameplay)`);
+}
+
 // Exit with error code if there are errors
 if (totalErrors > 0) {
     console.log('\n❌ VALIDATION FAILED');
     process.exit(1);
 } else {
     console.log('\n✅ ALL VALIDATION CHECKS PASSED');
-    if (totalWarnings > 0) {
-        console.log(`⚠️  ${totalWarnings} warnings found`);
+    if (totalWarnings > 0 || totalColumnDuplicates > 0) {
+        console.log(`⚠️  ${totalWarnings} warnings found, ${totalColumnDuplicates} column duplicates found`);
     }
     process.exit(0);
 }
