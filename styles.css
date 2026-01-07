@@ -1,0 +1,384 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.game-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #667eea;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.instructions {
+    color: #666;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.theme-display {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.theme-display h2 {
+    color: #333;
+    font-size: 1.5em;
+}
+
+#theme {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.word-builder {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+#currentWord {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    min-height: 50px;
+    color: #333;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.word-builder-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.word-builder button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+#clearWord {
+    background: #ff9800;
+    color: white;
+}
+
+#clearWord:hover {
+    background: #e68900;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.puzzle-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(6, 100px);
+    gap: 8px;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.fragment-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    border: 3px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    cursor: default;
+    transition: all 0.2s;
+    position: relative;
+    user-select: none;
+}
+
+.fragment-cell.available {
+    border-color: #4CAF50;
+    background: #f0f8f0;
+    cursor: pointer;
+}
+
+.fragment-cell.available:hover {
+    background: #e0f0e0;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fragment-cell.selected {
+    background: #2196F3;
+    color: white;
+    border-color: #1976D2;
+    transform: scale(1.05);
+}
+
+.fragment-cell.used {
+    background: #e0e0e0;
+    color: #999;
+    border-color: #bbb;
+    cursor: not-allowed;
+}
+
+.fragment-cell .selection-number {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 12px;
+    background: white;
+    color: #2196F3;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid #2196F3;
+}
+
+.found-words {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.found-words h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+#foundCount {
+    color: #667eea;
+    font-weight: bold;
+}
+
+#foundWordsList {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+#foundWordsList li {
+    background: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1em;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.message-display {
+    text-align: center;
+    margin: 20px 0;
+    min-height: 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.message-display.success {
+    color: #4CAF50;
+    animation: pulse 0.5s;
+}
+
+.message-display.error {
+    color: #f44336;
+    animation: shake 0.5s;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.game-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.game-controls button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+#newGame {
+    background: #667eea;
+    color: white;
+}
+
+#newGame:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#giveUp {
+    background: #f44336;
+    color: white;
+}
+
+#giveUp:hover {
+    background: #da190b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.victory-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s;
+}
+
+.victory-message {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.victory-message h2 {
+    color: #4CAF50;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.victory-message p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.victory-message button {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.victory-message button:hover {
+    background: #5568d3;
+    transform: scale(1.05);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .puzzle-grid {
+        grid-template-columns: repeat(5, 60px);
+        grid-template-rows: repeat(6, 60px);
+        gap: 4px;
+    }
+
+    .fragment-cell {
+        font-size: 18px;
+    }
+
+    #currentWord {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+
+    .word-builder button,
+    .game-controls button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .puzzle-grid {
+        grid-template-columns: repeat(5, 50px);
+        grid-template-rows: repeat(6, 50px);
+        gap: 3px;
+    }
+
+    .fragment-cell {
+        font-size: 16px;
+    }
+
+    #currentWord {
+        font-size: 20px;
+    }
+}
