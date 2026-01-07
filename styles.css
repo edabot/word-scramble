@@ -56,34 +56,19 @@ header h1 {
     font-weight: bold;
 }
 
-.word-builder {
+.clear-button-container {
     text-align: center;
-    margin: 20px 0;
-    padding: 20px;
-    border-radius: 10px;
+    margin: 15px 0;
 }
 
-#currentWord {
-    display: none;
-}
-
-.word-builder-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
-
-.word-builder button {
-    padding: 12px 24px;
-    font-size: 16px;
+#clearWord {
+    padding: 10px 20px;
+    font-size: 15px;
     font-weight: bold;
     border-radius: 6px;
     cursor: pointer;
     border: none;
     transition: all 0.3s;
-}
-
-#clearWord {
     background: #ff9800;
     color: white;
 }
@@ -94,9 +79,13 @@ header h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.clear-button-container.hidden {
+    display: none;
+}
+
 .puzzle-grid {
     display: grid;
-    grid-template-columns: repeat(5, 100px);
+    grid-template-columns: repeat(5, 120px);
     grid-template-rows: repeat(5, 100px);
     gap: 8px;
     margin: 20px auto;
@@ -107,7 +96,7 @@ header h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
     font-family: 'Arial', sans-serif;
     border: 3px solid #ccc;
@@ -391,6 +380,75 @@ header h1 {
     transform: scale(1.05);
 }
 
+/* Confirmation Popup */
+.confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s;
+}
+
+.confirm-dialog {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-dialog p {
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.confirm-buttons button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+}
+
+#confirmYes {
+    background: #f44336;
+    color: white;
+}
+
+#confirmYes:hover {
+    background: #da190b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#confirmNo {
+    background: #667eea;
+    color: white;
+}
+
+#confirmNo:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .game-container {
@@ -402,21 +460,16 @@ header h1 {
     }
 
     .puzzle-grid {
-        grid-template-columns: repeat(5, 60px);
+        grid-template-columns: repeat(5, 70px);
         grid-template-rows: repeat(5, 60px);
         gap: 4px;
     }
 
     .fragment-cell {
-        font-size: 18px;
+        font-size: 16px;
     }
 
-    #currentWord {
-        font-size: 24px;
-        letter-spacing: 2px;
-    }
-
-    .word-builder button,
+    #clearWord,
     .game-controls button {
         padding: 10px 16px;
         font-size: 14px;
@@ -425,16 +478,12 @@ header h1 {
 
 @media (max-width: 480px) {
     .puzzle-grid {
-        grid-template-columns: repeat(5, 50px);
+        grid-template-columns: repeat(5, 58px);
         grid-template-rows: repeat(5, 50px);
         gap: 3px;
     }
 
     .fragment-cell {
-        font-size: 16px;
-    }
-
-    #currentWord {
-        font-size: 20px;
+        font-size: 14px;
     }
 }
