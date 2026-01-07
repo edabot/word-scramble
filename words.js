@@ -1,28 +1,12 @@
 // Word Groups Data
 const wordGroups = [
     {
-        theme: 'OCEAN',
-        words: ['OCEAN', 'WAVES', 'CORAL', 'SHARK', 'BEACH']
-    },
-    {
-        theme: 'MUSIC',
-        words: ['MUSIC', 'PIANO', 'DRUMS', 'NOTES', 'TEMPO']
-    },
-    {
         theme: 'GARDEN',
         words: ['GARDEN', 'FLOWERS', 'SEEDS', 'SOILS', 'WATER']
     },
     {
-        theme: 'SPACE',
-        words: ['SPACE', 'STARS', 'PLANET', 'COMET', 'ROCKET']
-    },
-    {
         theme: 'KITCHEN',
         words: ['KITCHEN', 'STOVE', 'KNIFE', 'PLATE', 'SPOON']
-    },
-    {
-        theme: 'SPORTS',
-        words: ['SPORTS', 'SOCCER', 'TENNIS', 'TRACK', 'TEAM']
     },
     {
         theme: 'FOREST',
@@ -31,10 +15,6 @@ const wordGroups = [
     {
         theme: 'WINTER',
         words: ['WINTER', 'SNOWS', 'FROST', 'FROZEN', 'SKATE']
-    },
-    {
-        theme: 'SCHOOL',
-        words: ['SCHOOL', 'BOOKS', 'DESK', 'STUDY', 'LEARN']
     },
     {
         theme: 'TRAVEL',
@@ -149,10 +129,6 @@ const wordGroups = [
         words: ['MAGIC', 'SPELL', 'WANDS', 'CHARM', 'TRICK']
     },
     {
-        theme: 'WIZARD',
-        words: ['WIZARD', 'STAFF', 'ROBE', 'SPELL', 'TOWER']
-    },
-    {
         theme: 'FAIRY',
         words: ['FAIRY', 'WINGS', 'DUSTS', 'GLOWS', 'SPELL']
     },
@@ -193,10 +169,6 @@ const wordGroups = [
         words: ['RANCH', 'HORSE', 'FARMS', 'FENCE', 'BARNS']
     },
     {
-        theme: 'STABLE',
-        words: ['STABLE', 'HORSE', 'HAYS', 'STALL', 'BARNS']
-    },
-    {
         theme: 'FENCE',
         words: ['FENCE', 'WOODS', 'POSTS', 'WIRES', 'RAILS']
     },
@@ -223,22 +195,6 @@ const wordGroups = [
     {
         theme: 'PHOTO',
         words: ['PHOTO', 'IMAGE', 'FRAME', 'SHOTS', 'ALBUM']
-    },
-    {
-        theme: 'PAINT',
-        words: ['PAINT', 'BRUSH', 'COLOR', 'CANVAS', 'ARTS']
-    },
-    {
-        theme: 'CANVAS',
-        words: ['CANVAS', 'PAINT', 'ARTS', 'FRAME', 'BRUSH']
-    },
-    {
-        theme: 'MUSEUM',
-        words: ['MUSEUM', 'ARTS', 'EXHIBITS', 'RELICS', 'TOURS']
-    },
-    {
-        theme: 'STATUE',
-        words: ['STATUE', 'STONE', 'BRONZE', 'STAND', 'ARTS']
     },
     {
         theme: 'PALACE',
@@ -273,22 +229,6 @@ const wordGroups = [
         words: ['BLADE', 'SHARP', 'EDGES', 'STEEL', 'SWORD']
     },
     {
-        theme: 'ARROW',
-        words: ['ARROW', 'BOWS', 'SHAFT', 'POINT', 'FEATHER']
-    },
-    {
-        theme: 'QUIVER',
-        words: ['QUIVER', 'ARROW', 'BOWS', 'STRAP', 'HOLDS']
-    },
-    {
-        theme: 'TARGET',
-        words: ['TARGET', 'AIMS', 'ARROW', 'BULLS', 'SHOOT']
-    },
-    {
-        theme: 'ARCHER',
-        words: ['ARCHER', 'BOWS', 'ARROW', 'AIMS', 'SHOTS']
-    },
-    {
         theme: 'HUNTER',
         words: ['HUNTER', 'TRACK', 'PREYS', 'WOODS', 'RIFLE']
     },
@@ -317,16 +257,8 @@ const wordGroups = [
         words: ['PARROT', 'BIRDS', 'COLOR', 'TALKS', 'BEAKS']
     },
     {
-        theme: 'JUNGLE',
-        words: ['JUNGLE', 'DENSE', 'VINES', 'WILDS', 'GREEN']
-    },
-    {
         theme: 'MONKEY',
         words: ['MONKEY', 'TREES', 'TAILS', 'CLIMB', 'SWING']
-    },
-    {
-        theme: 'GORILLA',
-        words: ['GORILLA', 'APES', 'CHEST', 'STRONG', 'FOREST']
     },
     {
         theme: 'PANDA',
@@ -349,24 +281,8 @@ const wordGroups = [
         words: ['SEALS', 'WATER', 'SWIMS', 'FISHY', 'COAST']
     },
     {
-        theme: 'PENGUIN',
-        words: ['PENGUIN', 'ICED', 'SWIMS', 'WADDLE', 'FISHY']
-    },
-    {
-        theme: 'IGLOO',
-        words: ['IGLOO', 'SNOWY', 'ICED', 'DOMES', 'COLDS']
-    },
-    {
-        theme: 'GLACIER',
-        words: ['GLACIER', 'ICED', 'SLOWS', 'MELTS', 'BLUES']
-    },
-    {
-        theme: 'ICEBERG',
-        words: ['ICEBERG', 'FLOAT', 'ICED', 'OCEAN', 'TIPS']
-    },
-    {
         theme: 'SUMMIT',
-        words: ['SUMMIT', 'PEAKS', 'TOPS', 'CLIMB', 'MOUNT']
+        words: ['SUMMIT', 'PEAKS', 'CLIMB', 'MOUNT', 'ROCKY']
     },
     {
         theme: 'CANYON',
@@ -403,9 +319,5 @@ const wordGroups = [
     {
         theme: 'VOLCANO',
         words: ['VOLCANO', 'LAVAS', 'ERUPT', 'CRATER', 'ASHEN']
-    },
-    {
-        theme: 'CRATER',
-        words: ['CRATER', 'HOLES', 'DEEPS', 'RIMS', 'BOWLS']
     }
 ];
