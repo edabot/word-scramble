@@ -526,6 +526,7 @@ function updateWordDisplay() {
 function animateFragmentsToRow(fragments, targetRow, wordIndex) {
     // Store the fragments that need to be moved
     const fragmentsToMove = [...fragments];
+    let completedAnimations = 0;
 
     // For each fragment, animate it to the target row
     fragmentsToMove.forEach((frag) => {
@@ -545,6 +546,12 @@ function animateFragmentsToRow(fragments, targetRow, wordIndex) {
                 sourceCell.classList.add('used');
                 sourceCell.classList.add(`solution-word-${wordIndex}`);
                 sourceCell.classList.remove('selected');
+                completedAnimations++;
+
+                // If all animations complete, re-highlight first column
+                if (completedAnimations === fragmentsToMove.length) {
+                    setTimeout(() => highlightColumn(0), 50);
+                }
                 return;
             }
 
@@ -594,6 +601,10 @@ function animateFragmentsToRow(fragments, targetRow, wordIndex) {
                 targetCell.textContent = gameState.grid[targetRow][frag.col];
                 targetCell.dataset.row = targetRow;
 
+                // Clear all styling from source cell that moved down
+                sourceCell.classList.remove('used', 'selected', 'available');
+                sourceCell.className = 'fragment-cell';
+
                 // Apply final styling to target cell
                 targetCell.classList.add('used');
                 targetCell.classList.add(`solution-word-${wordIndex}`);
@@ -608,6 +619,14 @@ function animateFragmentsToRow(fragments, targetRow, wordIndex) {
 
                 // Update the fragment's row reference
                 frag.row = targetRow;
+
+                // Track completed animations
+                completedAnimations++;
+
+                // If all animations complete, re-highlight first column
+                if (completedAnimations === fragmentsToMove.length) {
+                    setTimeout(() => highlightColumn(0), 50);
+                }
             }, 510);
         }
     });
@@ -689,8 +708,10 @@ function submitWord() {
         // Check win condition
         if (gameState.foundWords.length === 5) {
             gameState.currentState = GameState.WON;
-            // Gray out decoy letters
-            markDecoysAsUsed();
+            // Gray out decoy letters after animation completes
+            setTimeout(() => {
+                markDecoysAsUsed();
+            }, 600);
         }
 
         // Clear selection
