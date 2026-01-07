@@ -226,6 +226,62 @@ if (totalColumnDuplicates === 0) {
     console.log(`⚠️  ${totalColumnDuplicates} duplicate fragments found (acceptable for gameplay)`);
 }
 
+// Test for profanity in fragments
+console.log('\n=== PROFANITY FILTER TEST ===');
+let profanityErrors = 0;
+const bannedFragments = ['ASS'];
+
+wordGroups.forEach((group, index) => {
+    const fragmentsToCheck = [];
+
+    // Collect all fragments from words
+    group.words.forEach((word, wordIndex) => {
+        if (Array.isArray(word)) {
+            word.forEach((fragment, fragIndex) => {
+                fragmentsToCheck.push({
+                    type: 'word',
+                    wordIndex: wordIndex + 1,
+                    fragIndex: fragIndex + 1,
+                    fragment: fragment
+                });
+            });
+        }
+    });
+
+    // Collect all fragments from decoy
+    if (Array.isArray(group.decoy)) {
+        group.decoy.forEach((fragment, fragIndex) => {
+            fragmentsToCheck.push({
+                type: 'decoy',
+                fragIndex: fragIndex + 1,
+                fragment: fragment
+            });
+        });
+    }
+
+    // Check each fragment for banned content
+    fragmentsToCheck.forEach(item => {
+        const upperFragment = item.fragment.toUpperCase();
+        bannedFragments.forEach(banned => {
+            if (upperFragment === banned) {
+                profanityErrors++;
+                if (item.type === 'word') {
+                    console.log(`❌ Group #${index + 1} (${group.theme}): Word #${item.wordIndex}, fragment #${item.fragIndex} contains "${item.fragment}"`);
+                } else {
+                    console.log(`❌ Group #${index + 1} (${group.theme}): Decoy fragment #${item.fragIndex} contains "${item.fragment}"`);
+                }
+            }
+        });
+    });
+});
+
+if (profanityErrors === 0) {
+    console.log('✅ No banned fragments found!');
+} else {
+    console.log(`❌ ${profanityErrors} banned fragment(s) found`);
+    totalErrors += profanityErrors;
+}
+
 // Exit with error code if there are errors
 if (totalErrors > 0) {
     console.log('\n❌ VALIDATION FAILED');

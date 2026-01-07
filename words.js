@@ -1175,8 +1175,8 @@ const wordGroups = [
             [
                 "J",
                 "UR",
-                "ASS",
-                "I",
+                "AS",
+                "SI",
                 "C"
             ],
             [
@@ -3936,8 +3936,8 @@ const wordGroups = [
                 "BLU",
                 "E",
                 "G",
-                "R",
-                "ASS"
+                "RA",
+                "SS"
             ],
             [
                 "T",
