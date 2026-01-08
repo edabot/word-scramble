@@ -603,7 +603,7 @@ const wordGroups = [
         ]
     },
     {
-        "theme": "MYTHOLOGY",
+        "theme": "GREEK MYTHOLOGY",
         "words": [
             [
                 "AP",
@@ -627,11 +627,11 @@ const wordGroups = [
                 "N"
             ],
             [
-                "HE",
-                "R",
-                "C",
-                "UL",
-                "ES"
+                "JU",
+                "P",
+                "IT",
+                "E",
+                "R"
             ]
         ],
         "decoy": [

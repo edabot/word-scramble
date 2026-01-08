@@ -76,9 +76,9 @@ const wordGroups = [
         decoy: 'DIAMOND'
     },
     {
-        theme: 'MYTHOLOGY',
+        theme: 'GREEK MYTHOLOGY',
         words: ['APOLLO', 'ATHENA', 'POSEIDON', 'HERCULES'],
-        decoy: 'OLYMPUS'
+        decoy: 'JUPITER'
     },
     {
         theme: 'EGYPTIAN',
