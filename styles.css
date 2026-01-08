@@ -220,33 +220,33 @@ header h1 {
 }
 
 .fragment-cell.solution-word-0 {
-    background: #fee440;
-    color: #333;
-    border-color: #fee440;
+    background: #56B4E9;
+    color: black;
+    border-color: #0077BB;
 }
 
 .fragment-cell.solution-word-1 {
-    background: #4ECDC4;
-    color: white;
-    border-color: #3DBCB3;
+    background: #F0A860;
+    color: black;
+    border-color: #E69138;
 }
 
 .fragment-cell.solution-word-2 {
-    background: #f15bb5;
-    color: #333;
-    border-color: #f15bb5;
+    background: #CC79A7;
+    color: black;
+    border-color: #AA4477;
 }
 
 .fragment-cell.solution-word-3 {
-    background: #95E1D3;
-    color: #333;
-    border-color: #84D0C2;
+    background: #44C9B8;
+    color: black;
+    border-color: #009988;
 }
 
 .fragment-cell.solution-word-4 {
-    background: #00bbf9;
-    color: #333;
-    border-color: #00bbf9;
+    background: #E89CAA;
+    color: black;
+    border-color: #CC6677;
 }
 
 .fragment-cell .selection-number {
@@ -301,28 +301,28 @@ header h1 {
 }
 
 #foundWordsList li.found-word-0 {
-    background: #fee440;
-    color: #333;
+    background: #56B4E9;
+    color: black;
 }
 
 #foundWordsList li.found-word-1 {
-    background: #4ECDC4;
-    color: white;
+    background: #F0A860;
+    color: black;
 }
 
 #foundWordsList li.found-word-2 {
-    background: #f15bb5;
-    color: white;
+    background: #CC79A7;
+    color: black;
 }
 
 #foundWordsList li.found-word-3 {
-    background: #95E1D3;
-    color: #333;
+    background: #44C9B8;
+    color: black;
 }
 
 #foundWordsList li.found-word-4 {
-    background: #00bbf9;
-    color: white;
+    background: #E89CAA;
+    color: black;
 }
 
 @keyframes fadeIn {
