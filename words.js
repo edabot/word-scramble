@@ -2166,11 +2166,11 @@ const wordGroups = [
         "theme": "SHREK",
         "words": [
             [
-                "O",
-                "G",
-                "R",
-                "E",
-                "S"
+                "FA",
+                "IR",
+                "Y",
+                "TA",
+                "LE"
             ],
             [
                 "D",
@@ -2326,11 +2326,11 @@ const wordGroups = [
         "theme": "SOPRANOS",
         "words": [
             [
-                "T",
-                "O",
-                "N",
-                "Y",
-                "S"
+                "BA",
+                "DA",
+                "B",
+                "I",
+                "NG"
             ],
             [
                 "MO",
@@ -2387,11 +2387,11 @@ const wordGroups = [
                 "D"
             ],
             [
-                "T",
-                "O",
-                "S",
-                "S",
-                "S"
+                "YE",
+                "N",
+                "NE",
+                "F",
+                "ER"
             ]
         ],
         "decoy": [
@@ -2403,7 +2403,7 @@ const wordGroups = [
         ]
     },
     {
-        "theme": "GAME THRONES",
+        "theme": "GAME OF THRONES",
         "words": [
             [
                 "S",
@@ -2493,11 +2493,11 @@ const wordGroups = [
                 "IE"
             ],
             [
-                "ME",
-                "R",
-                "C",
-                "U",
-                "RY"
+                "G",
+                "LA",
+                "M",
+                "RO",
+                "CK"
             ],
             [
                 "B",
@@ -2507,11 +2507,11 @@ const wordGroups = [
                 "IAN"
             ],
             [
-                "R",
-                "HAP",
-                "S",
-                "OD",
-                "Y"
+                "GA",
+                "L",
+                "IL",
+                "E",
+                "O"
             ]
         ],
         "decoy": [
@@ -2643,7 +2643,7 @@ const wordGroups = [
         ]
     },
     {
-        "theme": "CALL DUTY",
+        "theme": "CALL OF DUTY",
         "words": [
             [
                 "WA",
@@ -2726,11 +2726,11 @@ const wordGroups = [
         "theme": "DEADPOOL",
         "words": [
             [
-                "W",
-                "A",
-                "D",
-                "E",
-                "S"
+                "SA",
+                "R",
+                "CA",
+                "ST",
+                "IC"
             ],
             [
                 "WI",
@@ -2749,9 +2749,9 @@ const wordGroups = [
             [
                 "CHI",
                 "MI",
-                "C",
-                "HAN",
-                "GA"
+                "CH",
+                "AN",
+                "GAS"
             ]
         ],
         "decoy": [
@@ -2806,18 +2806,18 @@ const wordGroups = [
         "theme": "AQUAMAN",
         "words": [
             [
-                "AR",
-                "T",
-                "H",
-                "U",
-                "R"
+                "TE",
+                "LE",
+                "P",
+                "AT",
+                "HY"
             ],
             [
-                "C",
-                "U",
-                "R",
-                "R",
-                "Y"
+                "BL",
+                "ACK",
+                "MA",
+                "NT",
+                "A"
             ],
             [
                 "TR",
@@ -2886,11 +2886,11 @@ const wordGroups = [
         "theme": "DRAGON BALL",
         "words": [
             [
-                "G",
+                "PI",
+                "C",
+                "C",
                 "O",
-                "K",
-                "U",
-                "S"
+                "LO"
             ],
             [
                 "K",
@@ -2963,7 +2963,7 @@ const wordGroups = [
         ]
     },
     {
-        "theme": "FULLMETAL",
+        "theme": "FULLMETAL ALCHEMIST",
         "words": [
             [
                 "ED",
@@ -3043,7 +3043,7 @@ const wordGroups = [
         ]
     },
     {
-        "theme": "CHRONICLES NARNIA",
+        "theme": "CHRONICLES OF NARNIA",
         "words": [
             [
                 "A",
@@ -3643,7 +3643,7 @@ const wordGroups = [
         ]
     },
     {
-        "theme": "RINGS POWER",
+        "theme": "RINGS OF POWER",
         "words": [
             [
                 "GAL",
@@ -3760,46 +3760,6 @@ const wordGroups = [
             "AN",
             "C",
             "H"
-        ]
-    },
-    {
-        "theme": "WANDAVISION",
-        "words": [
-            [
-                "W",
-                "A",
-                "N",
-                "D",
-                "A"
-            ],
-            [
-                "V",
-                "I",
-                "S",
-                "IO",
-                "N"
-            ],
-            [
-                "A",
-                "G",
-                "A",
-                "T",
-                "HA"
-            ],
-            [
-                "N",
-                "E",
-                "X",
-                "U",
-                "S"
-            ]
-        ],
-        "decoy": [
-            "M",
-            "AR",
-            "B",
-            "L",
-            "E"
         ]
     },
     {
