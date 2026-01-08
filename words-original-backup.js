@@ -1,94 +1,9 @@
 // Word Groups Data
 const wordGroups = [
     {
-        theme: 'GARDEN',
-        words: ['FLOWERS', 'SHOVEL', 'MULCH', 'WATER'],
-        decoy: 'LAPTOP'
-    },
-    {
-        theme: 'KITCHEN',
-        words: ['STOVE', 'KNIFE', 'PLATE', 'SPOON'],
-        decoy: 'FOREST'
-    },
-    {
-        theme: 'FOREST',
-        words: ['TREES', 'MAPLE', 'TRAIL', 'CREEK'],
-        decoy: 'GUITAR'
-    },
-    {
-        theme: 'MOVIE',
-        words: ['FILMS', 'ACTOR', 'SCENE', 'DRAMA'],
-        decoy: 'PLANET'
-    },
-    {
-        theme: 'ANIMAL',
-        words: ['TIGER', 'BEARS', 'ZEBRA', 'RHINO'],
-        decoy: 'CASTLE'
-    },
-    {
-        theme: 'PIRATE',
-        words: ['SHIPS', 'CHEST', 'SWORD', 'SKULL'],
-        decoy: 'MEMORY'
-    },
-    {
-        theme: 'JUNGLE',
-        words: ['VINES', 'RIVER', 'TRIBE', 'MACAW'],
-        decoy: 'SCHOOL'
-    },
-    {
-        theme: 'ARCTIC',
-        words: ['POLAR', 'BEARS', 'SNOWY', 'FROST'],
-        decoy: 'DESERT'
-    },
-    {
-        theme: 'COFFEE',
-        words: ['BEANS', 'CREAM', 'LATTE', 'MOCHA'],
-        decoy: 'MEADOW'
-    },
-    {
-        theme: 'BAKERY',
-        words: ['BREAD', 'FLOUR', 'OVENS', 'MUFFIN'],
-        decoy: 'WIZARD'
-    },
-    {
-        theme: 'TRAINS',
-        words: ['TRACK', 'COACH', 'STEAM', 'RAILS'],
-        decoy: 'CLOUDS'
-    },
-    {
-        theme: 'KNIGHT',
-        words: ['ARMOR', 'SWORD', 'HORSE', 'QUEST'],
-        decoy: 'ROBOTS'
-    },
-    {
-        theme: 'BEACH',
-        words: ['SANDY', 'WAVES', 'SHELL', 'SHORE'],
-        decoy: 'ROCKET'
-    },
-    {
-        theme: 'GALAXY',
-        words: ['STARS', 'ORBIT', 'SPACE', 'NEBULA'],
-        decoy: 'BAMBOO'
-    },
-    {
-        theme: 'ROBOT',
-        words: ['METAL', 'WIRES', 'CIRCUIT', 'SERVO'],
-        decoy: 'ORCHID'
-    },
-    {
         theme: 'MAGIC',
         words: ['SPELL', 'WANDS', 'CHARM', 'TRICK'],
         decoy: 'CANYON'
-    },
-    {
-        theme: 'ZOMBIE',
-        words: ['BRAIN', 'WALKS', 'GROAN', 'HORDE'],
-        decoy: 'PALACE'
-    },
-    {
-        theme: 'MUMMY',
-        words: ['WRAPS', 'EGYPT', 'CURSE', 'BURIAL'],
-        decoy: 'SHIELD'
     },
     {
         theme: 'MARSH',
@@ -96,44 +11,9 @@ const wordGroups = [
         decoy: 'BRONZE'
     },
     {
-        theme: 'VALLEY',
-        words: ['HILLS', 'GRASS', 'CREEK', 'FIELD'],
-        decoy: 'PIRATE'
-    },
-    {
-        theme: 'ISLAND',
-        words: ['PALMS', 'COAST', 'WATER', 'BEACH'],
-        decoy: 'TRAINS'
-    },
-    {
-        theme: 'WHALE',
-        words: ['OCEAN', 'GIANT', 'SPOUT', 'DIVES'],
-        decoy: 'THUNDER'
-    },
-    {
         theme: 'DOLPHIN',
         words: ['OCEAN', 'JUMPS', 'PLAYFUL', 'SMART'],
         decoy: 'CRIMSON'
-    },
-    {
-        theme: 'SUMMIT',
-        words: ['PEAKS', 'CLIMB', 'MOUNT', 'ROCKY'],
-        decoy: 'VELVET'
-    },
-    {
-        theme: 'MEADOW',
-        words: ['GRASS', 'FIELD', 'GREEN', 'FLOWER'],
-        decoy: 'COBALT'
-    },
-    {
-        theme: 'VOLCANO',
-        words: ['MAGMA', 'ERUPT', 'CRATER', 'ASHEN'],
-        decoy: 'MAROON'
-    },
-    {
-        theme: 'HARRY POTTER',
-        words: ['SNAPE', 'MAGIC', 'HOGWART', 'POTION'],
-        decoy: 'SHADOW'
     },
     {
         theme: 'WESTEROS',
@@ -171,19 +51,9 @@ const wordGroups = [
         decoy: 'MAGENTA'
     },
     {
-        theme: 'BEATLES',
-        words: ['LENNON', 'MCCARTNEY', 'HARRISON', 'STARR'],
-        decoy: 'SILVER'
-    },
-    {
         theme: 'EINSTEIN',
         words: ['RELATIVITY', 'ENERGY', 'THEORY', 'PHYSICS'],
         decoy: 'COPPER'
-    },
-    {
-        theme: 'TENNIS',
-        words: ['SERVE', 'VOLLEY', 'BASELINE', 'DEUCE'],
-        decoy: 'SAFFRON'
     },
     {
         theme: 'BASKETBALL',
@@ -196,11 +66,6 @@ const wordGroups = [
         decoy: 'WHISPER'
     },
     {
-        theme: 'SHAKESPEARE',
-        words: ['HAMLET', 'MACBETH', 'ROMEO', 'JULIET'],
-        decoy: 'CRYSTAL'
-    },
-    {
         theme: 'MUSIC',
         words: ['SAXOPHONE', 'TRUMPET', 'BEBOP', 'SWING'],
         decoy: 'SCARLET'
@@ -211,16 +76,6 @@ const wordGroups = [
         decoy: 'DIAMOND'
     },
     {
-        theme: 'SURFING',
-        words: ['BARREL', 'WIPEOUT', 'BOARD', 'WAVES'],
-        decoy: 'QUARTZ'
-    },
-    {
-        theme: 'YOGA POSE',
-        words: ['DOWNDOG', 'WARRIOR', 'LOTUS', 'NAMASTE'],
-        decoy: 'TOPAZ'
-    },
-    {
         theme: 'MYTHOLOGY',
         words: ['APOLLO', 'ATHENA', 'POSEIDON', 'HERCULES'],
         decoy: 'OLYMPUS'
@@ -229,11 +84,6 @@ const wordGroups = [
         theme: 'EGYPTIAN',
         words: ['PHARAOH', 'PYRAMID', 'SPHINX', 'CLEOPATRA'],
         decoy: 'RUBIES'
-    },
-    {
-        theme: 'SEINFELD',
-        words: ['JERRY', 'ELAINE', 'GEORGE', 'KRAMER'],
-        decoy: 'SAPPHIRE'
     },
     {
         theme: 'FRIENDS',
@@ -251,24 +101,9 @@ const wordGroups = [
         decoy: 'OPALINE'
     },
     {
-        theme: 'WHISKEY',
-        words: ['BOURBON', 'SCOTCH', 'BARREL', 'AGING'],
-        decoy: 'PEARL'
-    },
-    {
         theme: 'WINERY',
         words: ['MERLOT', 'CABERNET', 'PINOT', 'CHARDONNAY'],
         decoy: 'JADEITE'
-    },
-    {
-        theme: 'MEXICO',
-        words: ['TACOS', 'TEQUILA', 'MARIACHI', 'CANCUN'],
-        decoy: 'CORAL'
-    },
-    {
-        theme: 'ITALY',
-        words: ['PASTA', 'VENICE', 'COLOSSEUM', 'GELATO'],
-        decoy: 'GRANITE'
     },
     {
         theme: 'JAPAN',
@@ -286,34 +121,14 @@ const wordGroups = [
         decoy: 'CITRINE'
     },
     {
-        theme: 'POKER',
-        words: ['FLUSH', 'STRAIGHT', 'ROYAL', 'BLUFF'],
-        decoy: 'MOONSTONE'
-    },
-    {
-        theme: 'CHESS',
-        words: ['BISHOP', 'KNIGHT', 'CHECKMATE', 'CASTLE'],
-        decoy: 'AGATE'
-    },
-    {
         theme: 'HOCKEY',
         words: ['STICK', 'PENALTY', 'SKATING', 'GOALIE'],
         decoy: 'TOURMALINE'
     },
     {
-        theme: 'BATMAN',
-        words: ['GOTHAM', 'JOKER', 'ROBIN', 'ALFRED'],
-        decoy: 'PERIDOT'
-    },
-    {
         theme: 'SUPERMAN',
         words: ['KRYPTON', 'METROPOLIS', 'CLARK', 'SMALLVILLE'],
         decoy: 'ZIRCON'
-    },
-    {
-        theme: 'STARWARS',
-        words: ['VADER', 'SKYWALKER', 'SABER', 'FORCE'],
-        decoy: 'BERYL'
     },
     {
         theme: 'STARTREK',
@@ -346,11 +161,6 @@ const wordGroups = [
         decoy: 'RHODONITE'
     },
     {
-        theme: 'OLYMPICS',
-        words: ['TORCH', 'STADIUM', 'TRACK', 'MEDALS'],
-        decoy: 'LARIMAR'
-    },
-    {
         theme: 'AQUARIUM',
         words: ['CORAL', 'JELLYFISH', 'OCTOPUS', 'DOLPHIN'],
         decoy: 'SUGILITE'
@@ -359,11 +169,6 @@ const wordGroups = [
         theme: 'MARATHON',
         words: ['RUNNER', 'FINISH', 'ENDURANCE', 'MEDAL'],
         decoy: 'TANZANITE'
-    },
-    {
-        theme: 'BICYCLE',
-        words: ['PEDAL', 'CHAIN', 'WHEEL', 'BRAKE'],
-        decoy: 'TURRET'
     },
     {
         theme: 'CLIMBING',
@@ -386,11 +191,6 @@ const wordGroups = [
         decoy: 'NEBULA'
     },
     {
-        theme: 'SKIING',
-        words: ['SLOPE', 'POWDER', 'DOWNHILL', 'ALPINE'],
-        decoy: 'ECLIPSE'
-    },
-    {
         theme: 'WRESTLING',
         words: ['GRAPPLE', 'TAKEDOWN', 'MATCH', 'SUBMISSION'],
         decoy: 'PHOENIX'
@@ -404,11 +204,6 @@ const wordGroups = [
         theme: 'ARCHERY',
         words: ['ARROW', 'TARGET', 'QUIVER', 'BULLSEYE'],
         decoy: 'ZENITH'
-    },
-    {
-        theme: 'FENCING',
-        words: ['SABRE', 'LUNGE', 'RIPOSTE', 'THRUST'],
-        decoy: 'HAMMER'
     },
     {
         theme: 'BASEBALL',
@@ -431,19 +226,9 @@ const wordGroups = [
         decoy: 'STATUE'
     },
     {
-        theme: 'FORMULA',
-        words: ['RACING', 'PITSTOP', 'TRACK', 'GRAND'],
-        decoy: 'WHISTLE'
-    },
-    {
         theme: 'NASCAR',
         words: ['DRAFTING', 'STOCKCAR', 'VICTORY', 'SPEEDWAY'],
         decoy: 'STARDUST'
-    },
-    {
-        theme: 'BALLET',
-        words: ['PIROUETTE', 'POINTE', 'DANCER', 'GRACE'],
-        decoy: 'RAVEN'
     },
     {
         theme: 'HIPHOP',
@@ -471,16 +256,6 @@ const wordGroups = [
         decoy: 'AVALANCHE'
     },
     {
-        theme: 'DRUMMER',
-        words: ['SNARE', 'CYMBAL', 'STICK', 'TEMPO'],
-        decoy: 'STARFISH'
-    },
-    {
-        theme: 'PIANIST',
-        words: ['MELODY', 'GRAND', 'CHORD', 'SONATA'],
-        decoy: 'BLIZZARD'
-    },
-    {
         theme: 'VIOLIN',
         words: ['STRING', 'CONCERTO', 'MELODY', 'VIBRATO'],
         decoy: 'CANDLE'
@@ -494,5 +269,235 @@ const wordGroups = [
         theme: 'BANJO',
         words: ['STRING', 'BLUEGRASS', 'TWANG', 'PLUCK'],
         decoy: 'SERENADE'
+    },
+    {
+        theme: 'SHREK',
+        words: ['OGRES', 'DONKEY', 'SWAMP', 'FIONA'],
+        decoy: 'MEDAL'
+    },
+    {
+        theme: 'TERMINATOR',
+        words: ['CYBORG', 'SARAH', 'CONNOR', 'SKYNET'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'BREAKING BAD',
+        words: ['WALTER', 'METHLAB', 'JESSIE', 'HEISENBERG'],
+        decoy: 'GUITAR'
+    },
+    {
+        theme: 'STRANGER THINGS',
+        words: ['ELEVEN', 'DEMOGORGON', 'HAWKINS', 'UPSIDEDOWN'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'SOPRANOS',
+        words: ['TONYS', 'MOBSTER', 'THERAPY', 'CARMELA'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'WITCHER',
+        words: ['GERALT', 'MONSTER', 'SWORD', 'TOSSS'],
+        decoy: 'BRAIN'
+    },
+    {
+        theme: 'GAME THRONES',
+        words: ['STARK', 'DRAGON', 'THRONE', 'TYRION'],
+        decoy: 'ANCHOR'
+    },
+    {
+        theme: 'WALKING DEAD',
+        words: ['ZOMBIES', 'RICKSS', 'WALKER', 'GRIMES'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'QUEEN',
+        words: ['FREDDIE', 'MERCURY', 'BOHEMIAN', 'RHAPSODY'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'POKEMON',
+        words: ['PIKACHU', 'ASHEN', 'POKEBALL', 'GYMSS'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'MINECRAFT',
+        words: ['STEVE', 'BLOCKS', 'CREEPER', 'DIAMOND'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'MARIO KART',
+        words: ['RACER', 'SHELLS', 'BANANA', 'DRIFT'],
+        decoy: 'CLOUD'
+    },
+    {
+        theme: 'CALL DUTY',
+        words: ['WARFARE', 'MODERN', 'SNIPER', 'GHOST'],
+        decoy: 'PIANO'
+    },
+    {
+        theme: 'WOLVERINE',
+        words: ['LOGAN', 'CLAWS', 'ADAMANTIUM', 'HEALING'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'DEADPOOL',
+        words: ['WADES', 'WILSON', 'MERCENARY', 'CHIMICHANGA'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'THOR',
+        words: ['HAMMER', 'MJOLNIR', 'ASGARD', 'WORTHY'],
+        decoy: 'PIANO'
+    },
+    {
+        theme: 'AQUAMAN',
+        words: ['ARTHUR', 'CURRY', 'TRIDENT', 'ATLANTIS'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'BLACK PANTHER',
+        words: ['TCHALLA', 'WAKANDA', 'VIBRANIUM', 'SHURI'],
+        decoy: 'MIXER'
+    },
+    {
+        theme: 'DRAGON BALL',
+        words: ['GOKUS', 'KAMEHAMEHA', 'SAIYAN', 'VEGETA'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'DEMON SLAYER',
+        words: ['TANJIRO', 'SWORD', 'BREATHING', 'NEZUKO'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'FULLMETAL',
+        words: ['EDWARD', 'ELRIC', 'ALCHEMY', 'TRANSMUTE'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'TWILIGHT',
+        words: ['BELLA', 'EDWARD', 'VAMPIRE', 'CULLEN'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'CHRONICLES NARNIA',
+        words: ['ASLAN', 'WARDROBE', 'PEVENSIE', 'CASPIAN'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'PERCY JACKSON',
+        words: ['DEMIGOD', 'POSEIDON', 'OLYMPUS', 'ANNABETH'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'YOUTUBE',
+        words: ['SUBSCRIBE', 'VLOGS', 'MONETIZE', 'ALGORITHM'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'SPOTIFY',
+        words: ['PLAYLIST', 'SHUFFLE', 'PREMIUM', 'WRAPPED'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'SPONGEBOB',
+        words: ['PATRICK', 'SQUIDWARD', 'KRABS', 'PLANKTON'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'RICK MORTY',
+        words: ['PORTAL', 'PICKLE', 'SCHWIFTY', 'MEESEEKS'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'FUTURAMA',
+        words: ['BENDER', 'LEELA', 'PLANET', 'EXPRESS'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'LEGEND KORRA',
+        words: ['AVATAR', 'BENDING', 'REPUBLIC', 'ASAMI'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'CASTLEVANIA',
+        words: ['DRACULA', 'TREVOR', 'SYPHA', 'ALUCARD'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'SANDMAN',
+        words: ['MORPHEUS', 'DREAMS', 'ENDLESS', 'DESIRE'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'COBRA KAI',
+        words: ['KARATE', 'DANIEL', 'JOHNNY', 'MIGUEL'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'PEAKY BLINDERS',
+        words: ['THOMAS', 'SHELBY', 'BIRMINGHAM', 'RAZOR'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'TED LASSO',
+        words: ['COACH', 'RICHMOND', 'BELIEVE', 'FOOTBALL'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'SQUID GAMES',
+        words: ['PLAYER', 'GUARD', 'MARBLE', 'BRIDGE'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'HOUSE DRAGON',
+        words: ['TARGARYEN', 'DAEMON', 'RHAENYRA', 'VISERYS'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'RINGS POWER',
+        words: ['GALADRIEL', 'ELROND', 'NUMENOR', 'SAURON'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'WHITE LOTUS',
+        words: ['RESORT', 'TANYA', 'PORTIA', 'ETHAN'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'LOKI',
+        words: ['SYLVIE', 'MOBIUS', 'TIMELY', 'VARIANT'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'WANDAVISION',
+        words: ['WANDA', 'VISION', 'AGATHA', 'NEXUS'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'FRIENDS',
+        words: ['RACHEL', 'MONICA', 'PHOEBE', 'CHANDLER'],
+        decoy: 'VIOLIN'
+    },
+    {
+        theme: 'OFFICE',
+        words: ['MICHAEL', 'DWIGHT', 'SCHRUTE', 'DUNDER'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'PARKS REC',
+        words: ['LESLIE', 'KNOPE', 'SWANSON', 'PERKINS'],
+        decoy: 'BRANCH'
+    },
+    {
+        theme: 'COMMUNITY',
+        words: ['STUDY', 'GROUP', 'GREENDALE', 'WINGER'],
+        decoy: 'MARBLE'
+    },
+    {
+        theme: 'VEEP',
+        words: ['SELINA', 'MEYER', 'ERICSSON', 'SPLETT'],
+        decoy: 'VIOLIN'
     }
 ];
