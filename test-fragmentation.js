@@ -50,23 +50,75 @@ function countConflicts(fragmentSets) {
     let conflicts = 0;
 
     for (let col = 0; col < 5; col++) {
-        const firstLetters = {};
+        const seenFragments = {};
 
         for (let row = 0; row < 5; row++) {
-            const fragment = fragmentSets[row][col];
-            const firstLetter = fragment.charAt(0).toUpperCase();
+            const fragment = fragmentSets[row][col].toUpperCase();
 
-            if (firstLetters[firstLetter]) {
+            if (seenFragments[fragment]) {
                 conflicts++;
-                console.log(`  Column ${col + 1}: "${fragment}" conflicts (letter "${firstLetter}")`);
+                console.log(`  Column ${col + 1}: "${fragment}" conflicts (duplicate fragment)`);
             } else {
-                firstLetters[firstLetter] = true;
+                seenFragments[fragment] = true;
             }
         }
     }
 
     return conflicts;
 }
+
+// Test countConflicts function
+console.log('=== TESTING countConflicts FUNCTION ===\n');
+
+// Test case 1: No conflicts
+console.log('Test 1: No conflicts (all fragments unique in each column)');
+const noConflicts = [
+    ['FL', 'OW', 'ER', 'S', 'T'],      // FLOWERST (hypothetical)
+    ['SH', 'OV', 'EL', 'Y', 'Z'],      // SHOVELYZ
+    ['MU', 'LC', 'H', 'I', 'N'],       // MULCHIN
+    ['WA', 'TE', 'R', 'F', 'A'],       // WATERFA
+    ['LA', 'PT', 'OP', 'D', 'E']       // LAPTOPDE
+];
+console.log('Expected: 0 conflicts');
+console.log('Result:', countConflicts(noConflicts));
+
+// Test case 2: One conflict in column 0
+console.log('\nTest 2: One conflict (duplicate "SH" in column 0)');
+const oneConflict = [
+    ['SH', 'OW', 'ER', 'S', 'T'],
+    ['SH', 'OV', 'EL', 'Y', 'Z'],      // Duplicate "SH" in col 0
+    ['MU', 'LC', 'H', 'I', 'N'],
+    ['WA', 'TE', 'R', 'F', 'A'],
+    ['LA', 'PT', 'OP', 'D', 'E']
+];
+console.log('Expected: 1 conflict');
+console.log('Result:', countConflicts(oneConflict));
+
+// Test case 3: Multiple conflicts across columns
+console.log('\nTest 3: Multiple conflicts (duplicates in columns 0, 1, and 2)');
+const multipleConflicts = [
+    ['FL', 'ER', 'ER', 'S', 'T'],
+    ['FL', 'OV', 'EL', 'Y', 'Z'],      // Duplicate "FL" in col 0
+    ['MU', 'LC', 'H', 'I', 'N'],
+    ['WA', 'ER', 'R', 'F', 'A'],       // Duplicate "ER" in col 1 and col 2
+    ['LA', 'PT', 'OP', 'D', 'E']
+];
+console.log('Expected: 3 conflicts (FL in col 0, ER in col 1, ER in col 2)');
+console.log('Result:', countConflicts(multipleConflicts));
+
+// Test case 4: Same fragment appears 3 times in one column
+console.log('\nTest 4: Same fragment appears 3 times (triple "ER" in column 1)');
+const tripleConflict = [
+    ['FL', 'ER', 'OW', 'S', 'T'],
+    ['SH', 'ER', 'EL', 'Y', 'Z'],      // Three "ER" in col 1
+    ['MU', 'ER', 'H', 'I', 'N'],       // (counts as 2 conflicts)
+    ['WA', 'TE', 'R', 'F', 'A'],
+    ['LA', 'PT', 'OP', 'D', 'E']
+];
+console.log('Expected: 2 conflicts (second and third occurrence of "ER")');
+console.log('Result:', countConflicts(tripleConflict));
+
+console.log('\n=== END countConflicts TESTS ===\n\n');
 
 // Test old method 5 times
 let oldConflictSum = 0;

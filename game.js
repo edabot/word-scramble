@@ -18,7 +18,10 @@ let gameState = {
     themeWord: '',
     themeRevealed: false,
     gridMetadata: [],
-    keyboardHighlightedCell: { row: 0, col: 0 } // For keyboard navigation
+    keyboardHighlightedCell: { row: 0, col: 0 }, // For keyboard navigation
+    hintsRemaining: 3,
+    hintedWordIndex: null, // Track which word is currently being hinted
+    hintedFragmentCount: 0 // How many fragments of the hinted word are highlighted (2 or 4)
 };
 
 // Utility function to shuffle array
@@ -413,17 +416,24 @@ function initializeGame() {
         wordList: fullWords, // Store full words for validation
         themeWord: group.theme,
         themeRevealed: false,
-        gridMetadata: newMetadata
+        gridMetadata: newMetadata,
+        keyboardHighlightedCell: { row: 0, col: 0 },
+        hintsRemaining: 3,
+        hintedWordIndex: null,
+        hintedFragmentCount: 0
     };
 
     // Render grid
     renderGrid();
 
     // Reset UI
-    document.getElementById('theme').textContent = '????';
+    document.getElementById('theme').textContent = '???';
     document.getElementById('foundWordsList').innerHTML = '';
     document.getElementById('foundCount').textContent = '0/4';
     document.querySelector('.clear-button-container').classList.remove('hidden');
+    document.getElementById('giveUp').disabled = false;
+    clearHintHighlights();
+    updateHintButton();
     clearMessage();
 
     // Highlight first column
@@ -727,6 +737,8 @@ function submitWord() {
         // Get the word index for color coding
         const wordIndex = gameState.selectedFragments[0].wordIndex;
 
+        clearHintHighlights();
+
         // Determine target row (based on how many words have been found)
         const targetRow = gameState.foundWords.length - 1;
 
@@ -751,6 +763,8 @@ function submitWord() {
             revealTheme(gameState.themeWord);
             // Hide clear button
             document.querySelector('.clear-button-container').classList.add('hidden');
+            // Disable the Show Solution button
+            document.getElementById('giveUp').disabled = true;
             // Remove keyboard highlight
             document.querySelectorAll('.fragment-cell').forEach(cell => {
                 cell.classList.remove('keyboard-highlighted');
@@ -991,7 +1005,132 @@ function showSolution() {
     showConfirmation();
 }
 
+// Update hint button text
+function updateHintButton() {
+    const hintButton = document.getElementById('hintButton');
+    if (gameState.hintsRemaining > 0) {
+        hintButton.textContent = `Hint (${gameState.hintsRemaining})`;
+        hintButton.disabled = false;
+    } else {
+        hintButton.textContent = 'Hint';
+        hintButton.disabled = true;
+    }
+}
+
+// Clear hint highlights
+function clearHintHighlights() {
+    document.querySelectorAll('.fragment-cell.hint-glow').forEach(cell => {
+        cell.classList.remove('hint-glow');
+    });
+    gameState.hintedWordIndex = null;
+    gameState.hintedFragmentCount = 0;
+}
+
+// Hint button handler
+function handleHint() {
+    // Can't use hints if game is over or no hints left
+    if (gameState.currentState === GameState.WON ||
+        gameState.currentState === GameState.LOST ||
+        gameState.hintsRemaining === 0) {
+        return;
+    }
+
+    // If we're already showing hints for a word
+    if (gameState.hintedWordIndex !== null) {
+        // Check if we've already shown 4 fragments (all but last)
+        if (gameState.hintedFragmentCount >= 4) {
+            showMessage('Maximum hints shown for this word!', 'error');
+            return;
+        }
+
+        // Determine which fragment to highlight next
+        let fragmentIndexToHighlight;
+        let newCount;
+
+        if (gameState.hintedFragmentCount === 2) {
+            // Show the 3rd fragment (index 2)
+            fragmentIndexToHighlight = 2;
+            newCount = 3;
+        } else if (gameState.hintedFragmentCount === 3) {
+            // Show the 4th fragment (index 3)
+            fragmentIndexToHighlight = 3;
+            newCount = 4;
+        }
+
+        const fragmentsToHighlight = gameState.gridMetadata.filter(m =>
+            m.wordIndex === gameState.hintedWordIndex &&
+            !m.isDecoy &&
+            m.fragmentIndex === fragmentIndexToHighlight
+        );
+
+        fragmentsToHighlight.forEach(meta => {
+            const cell = document.querySelector(`[data-row="${meta.row}"][data-col="${meta.col}"]`);
+            if (cell && !cell.classList.contains('used')) {
+                cell.classList.add('hint-glow');
+            }
+        });
+
+        gameState.hintedFragmentCount = newCount;
+        gameState.hintsRemaining--;
+        updateHintButton();
+        showMessage(`Showing fragment ${newCount}!`, 'success');
+        return;
+    }
+
+    // Find all unsolved words
+    const solvedWordIndices = new Set();
+    gameState.foundWords.forEach(word => {
+        // Find which word index this corresponds to
+        const wordIndex = gameState.wordList.indexOf(word);
+        if (wordIndex !== -1) {
+            solvedWordIndices.add(wordIndex);
+        }
+    });
+
+    // Get all unsolved word indices
+    const unsolvedWordIndices = new Set();
+    for (let i = 0; i < gameState.wordList.length; i++) {
+        if (!solvedWordIndices.has(i)) {
+            unsolvedWordIndices.add(i);
+        }
+    }
+
+    if (unsolvedWordIndices.size === 0) {
+        showMessage('All words already found!', 'error');
+        return;
+    }
+
+    // Pick a random unsolved word
+    const unsolvedArray = Array.from(unsolvedWordIndices);
+    const randomWordIndex = unsolvedArray[Math.floor(Math.random() * unsolvedArray.length)];
+
+    // Highlight the first 2 fragments (indices 0 and 1)
+    const fragmentsToHighlight = gameState.gridMetadata.filter(m =>
+        m.wordIndex === randomWordIndex &&
+        !m.isDecoy &&
+        m.fragmentIndex >= 0 && m.fragmentIndex <= 1
+    );
+
+    fragmentsToHighlight.forEach(meta => {
+        const cell = document.querySelector(`[data-row="${meta.row}"][data-col="${meta.col}"]`);
+        if (cell && !cell.classList.contains('used')) {
+            cell.classList.add('hint-glow');
+        }
+    });
+
+    // Update state
+    gameState.hintedWordIndex = randomWordIndex;
+    gameState.hintedFragmentCount = 2;
+    gameState.hintsRemaining--;
+    updateHintButton();
+
+    const hintedWord = gameState.wordList[randomWordIndex];
+    showMessage(`Hint: First 2 fragments of a ${hintedWord.length}-letter word`, 'success');
+}
+
 // Event Listeners
+document.getElementById('undoWord').addEventListener('click', undoLastMove);
+document.getElementById('hintButton').addEventListener('click', handleHint);
 document.getElementById('clearWord').addEventListener('click', clearSelection);
 document.getElementById('newGame').addEventListener('click', initializeGame);
 document.getElementById('giveUp').addEventListener('click', showSolution);

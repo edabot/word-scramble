@@ -214,7 +214,7 @@ function createFragmentMetadata(words) {
 ```html
 <div class="game-container">
   <div class="theme-display">
-    <h2>Theme: <span id="theme">????</span></h2>
+    <h2>Theme: <span id="theme">???</span></h2>
   </div>
   
   <div class="puzzle-grid">
